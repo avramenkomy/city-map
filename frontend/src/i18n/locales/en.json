@@ -8,6 +8,11 @@
     "ru": "Русский",
     "en": "English"
   },
+  "theme": {
+    "label": "Theme",
+    "light": "Light",
+    "dark": "Dark"
+  },
   "places": {
     "loading": "Loading places...",
     "loadError": "Failed to load places",

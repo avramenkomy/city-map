@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getPlaces } from '../api/placesApi';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import ThemeSwitcher from '../components/ThemeSwitcher';
 
 function HomePage() {
   const { t } = useTranslation();
@@ -42,6 +43,7 @@ function HomePage() {
     <main className="page">
       <header className="site-header">
         <LanguageSwitcher />
+        <ThemeSwitcher />
       </header>
 
       <section className="hero">
