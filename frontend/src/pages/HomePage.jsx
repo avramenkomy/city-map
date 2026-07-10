@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { getPlaces } from '../api/placesApi';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 function HomePage() {
+  const { t } = useTranslation();
+
   const [places, setPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,31 +27,41 @@ function HomePage() {
   }, []);
 
   if (isLoading) {
-    return <p>Загружаем места...</p>;
+    return <p>{t('places.loading')}</p>;
   }
 
   if (error) {
-    return <p>Ошибка: {error}</p>;
+    return (
+      <p>
+        {t('places.errorPrefix')}: {error}
+      </p>
+    );
   }
 
   return (
     <main className="page">
+      <header className="site-header">
+        <LanguageSwitcher />
+      </header>
+
       <section className="hero">
-        <h1>Городская карта мест</h1>
-        <p>Список мест из Django API.</p>
+        <h1>{t('app.title')}</h1>
+        <p>{t('app.subtitle')}</p>
       </section>
 
       <section className="places-list">
         {places.length === 0 ? (
-          <p>Пока нет добавленных мест.</p>
+          <p>{t('places.empty')}</p>
         ) : (
           places.map((place) => (
             <article className="place-card" key={place.id}>
               <h2>{place.title}</h2>
-              <p>{place.description || 'Описание пока не добавлено.'}</p>
-              <p>Категория: {place.category?.name || 'Без категории'}</p>
+              <p>{place.description || t('places.descriptionFallback')}</p>
               <p>
-                Координаты: {place.latitude}, {place.longitude}
+                {t('places.category')}: {place.category?.name || t('places.withoutCategory')}
+              </p>
+              <p>
+                {t('places.coordinates')}: {place.latitude}, {place.longitude}
               </p>
             </article>
           ))
