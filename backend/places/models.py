@@ -32,7 +32,7 @@ class Place(models.Model):
   address = models.CharField(max_length=255, blank=True)
 
   latitude = models.DecimalField(max_digits=9, decimal_places=6)
-  longitude = models.DecimalField(max_digits=9, decimal_places=6)
+  longtitude = models.DecimalField(max_digits=9, decimal_places=6)
 
   image = models.ImageField(upload_to='places/', blank=True, null=True)
 
