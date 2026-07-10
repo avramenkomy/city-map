@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "Городская карта мест",
+    "subtitle": "Список мест из Django API."
+  },
+  "language": {
+    "label": "Язык",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "places": {
+    "loading": "Загрузка мест...",
+    "loadError": "Не удалось загрузить места",
+    "errorPrefix": "Ошибка",
+    "empty": "Пока нет добавленных мест.",
+    "descriptionFallback": "Описание пока не добавлено.",
+    "category": "Категория",
+    "withoutCategory": "Без категории",
+    "coordinates": "Координаты"
+  }
+}

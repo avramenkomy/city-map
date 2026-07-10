@@ -1,0 +1,21 @@
+{
+  "app": {
+    "title": "City Places Map",
+    "subtitle": "A list of places from the Django API."
+  },
+  "language": {
+    "label": "Language",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "places": {
+    "loading": "Loading places...",
+    "loadError": "Failed to load places",
+    "errorPrefix": "Error",
+    "empty": "There are no places yet.",
+    "descriptionFallback": "No description yet.",
+    "category": "Category",
+    "withoutCategory": "No category",
+    "coordinates": "Coordinates"
+  }
+}
