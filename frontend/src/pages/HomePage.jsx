@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getPlaces } from '../api/placesApi';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ThemeSwitcher from '../components/ThemeSwitcher';
+import PreLoader from '../components/PageLoader';
 
 function HomePage() {
   const { t } = useTranslation();
@@ -28,7 +29,7 @@ function HomePage() {
   }, []);
 
   if (isLoading) {
-    return <p>{t('places.loading')}</p>;
+    return <PreLoader />;
   }
 
   if (error) {

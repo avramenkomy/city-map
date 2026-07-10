@@ -1,5 +1,7 @@
-@use './base/variables' as *;
+@use './base/variables';
 @use './base/reset';
+@use './base/motion';
+@use './animations/loader';
 
 .page {
   width: min(1100px, calc(100% - 32px));
