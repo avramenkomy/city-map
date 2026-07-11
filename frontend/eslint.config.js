@@ -8,6 +8,15 @@ export default defineConfig([
   globalIgnores(['dist']),
   {
     files: ['**/*.{js,jsx}'],
+    rules: {
+      'react-refresh/only-export-components': [
+        'warn',
+        {
+          allowConstantExport: true,
+          extraHOCs: ['observer'],
+        },
+      ],
+    },
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
