@@ -2,6 +2,7 @@
 @use './base/reset';
 @use './base/motion';
 @use './animations/loader';
+@use './components/modal';
 
 .page {
   width: min(1100px, calc(100% - 32px));
@@ -50,6 +51,16 @@
 
   p {
     margin: 0 0 8px;
+  }
+
+  .place-card__button {
+    margin-top: 12px;
+    padding: 10px 14px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: var(--color-primary-text);
+    cursor: pointer;
   }
 }
 

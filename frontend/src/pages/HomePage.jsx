@@ -5,6 +5,7 @@ import { getPlaces } from '../api/placesApi';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ThemeSwitcher from '../components/ThemeSwitcher';
 import PreLoader from '../components/PageLoader';
+import PlaceModal from '../components/PlaceModal';
 
 function HomePage() {
   const { t } = useTranslation();
@@ -12,6 +13,7 @@ function HomePage() {
   const [places, setPlaces] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectPlace, setSelectPlace] = useState(false);
 
   useEffect(() => {
     async function loadPlaces() {
@@ -64,12 +66,25 @@ function HomePage() {
                 {t('places.category')}: {place.category?.name || t('places.withoutCategory')}
               </p>
               <p>
-                {t('places.coordinates')}: {place.latitude}, {place.longitude}
+                {t('places.coordinates')}: {place.latitude}, {place.longtitude}
               </p>
+
+              <button
+                className="place-card__button"
+                type="button"
+                onClick={() => setSelectPlace(place)}
+              >
+                {t('places.details')}
+              </button>
             </article>
           ))
         )}
       </section>
+
+      {selectPlace && <PlaceModal
+        place={selectPlace}
+        onClose={() => setSelectPlace(false)}
+      />}
     </main>
   );
 }

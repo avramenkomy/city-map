@@ -22,6 +22,11 @@
     "descriptionFallback": "Описание пока не добавлено.",
     "category": "Категория",
     "withoutCategory": "Без категории",
-    "coordinates": "Координаты"
+    "coordinates": "Координаты",
+    "details": "Подробнее",
+    "close": "Закрыть",
+    "address": "Адрес",
+    "author": "Автор",
+    "createdAt": "Добавлено"
   }
 }

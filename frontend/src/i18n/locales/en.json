@@ -22,6 +22,11 @@
     "descriptionFallback": "No description yet.",
     "category": "Category",
     "withoutCategory": "No category",
-    "coordinates": "Coordinates"
+    "coordinates": "Coordinates",
+    "details": "Details",
+    "close": "Close",
+    "address": "Address",
+    "author": "Author",
+    "createdAt": "Added"
   }
 }
