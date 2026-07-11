@@ -1,43 +1,26 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
-import { getPlaces } from '../api/placesApi';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import ThemeSwitcher from '../components/ThemeSwitcher';
-import PreLoader from '../components/PageLoader';
+import PageLoader from '../components/PageLoader';
 import PlaceModal from '../components/PlaceModal';
+import { placesStore } from '../stores/placesStore';
 
 function HomePage() {
   const { t } = useTranslation();
 
-  const [places, setPlaces] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [selectPlace, setSelectPlace] = useState(false);
-
   useEffect(() => {
-    async function loadPlaces() {
-      try {
-        const data = await getPlaces();
-        setPlaces(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    loadPlaces();
+    placesStore.loadPlaces();
   }, []);
 
-  if (isLoading) {
-    return <PreLoader />;
-  }
+  if (placesStore.loading) return <PageLoader />
 
-  if (error) {
+  if (placesStore.error) {
     return (
       <p>
-        {t('places.errorPrefix')}: {error}
+        {t('places.errorPrefix')}: {placesStore.error}
       </p>
     );
   }
@@ -55,38 +38,40 @@ function HomePage() {
       </section>
 
       <section className="places-list">
-        {places.length === 0 ? (
-          <p>{t('places.empty')}</p>
-        ) : (
-          places.map((place) => (
-            <article className="place-card" key={place.id}>
-              <h2>{place.title}</h2>
-              <p>{place.description || t('places.descriptionFallback')}</p>
-              <p>
-                {t('places.category')}: {place.category?.name || t('places.withoutCategory')}
-              </p>
-              <p>
-                {t('places.coordinates')}: {place.latitude}, {place.longtitude}
-              </p>
+        {!placesStore.hasPlaces
+          ? <p>{t('places.empty')}</p>
 
-              <button
-                className="place-card__button"
-                type="button"
-                onClick={() => setSelectPlace(place)}
-              >
-                {t('places.details')}
-              </button>
-            </article>
-          ))
-        )}
+          : placesStore.places.map((place) => (
+              <article className="place-card" key={place.id}>
+                <h2>{place.title}</h2>
+                <p>{place.description || t('places.descriptionFallback')}</p>
+                <p>
+                  {t('places.category')}: {place.category?.name || t('places.withoutCategory')}
+                </p>
+                <p>
+                  {t('places.coordinates')}: {place.latitude}, {place.longtitude}
+                </p>
+
+                <button
+                  className="place-card__button"
+                  type="button"
+                  onClick={() => placesStore.selectPlace(place)}
+                >
+                  {t('places.details')}
+                </button>
+              </article>
+            ))
+        }
       </section>
 
-      {selectPlace && <PlaceModal
-        place={selectPlace}
-        onClose={() => setSelectPlace(false)}
-      />}
+      {placesStore.selectedPlace &&
+        <PlaceModal
+          place={placesStore.selectedPlace}
+          onClose={() => placesStore.closePlaceModal()}
+        />
+      }
     </main>
   );
 }
 
-export default HomePage;
+export default observer(HomePage);
