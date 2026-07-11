@@ -4,6 +4,10 @@
 @use './animations/loader';
 @use './components/modal';
 
+.app-shell {
+  min-height: 100vh;
+}
+
 .page {
   width: min(1100px, calc(100% - 32px));
   margin: 0 auto;
@@ -11,10 +15,42 @@
 }
 
 .site-header {
+  width: min(1100px, calc(100% - 32px));
+  margin: 0 auto;
+  padding:20px 0;
+
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
   gap: 12px;
-  margin-bottom: 24px;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+
+  a {
+    padding: 8px 12px;
+    border-radius: 999px;
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  a.active {
+    background: var(--color-primary);
+    color: var(--color-primary-text)
+  }
+}
+
+.text-link {
+  color: var(--color-text);
 }
 
 .hero {

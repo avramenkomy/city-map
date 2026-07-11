@@ -28,5 +28,31 @@
     "address": "Address",
     "author": "Author",
     "createdAt": "Added"
+  },
+  "navigation": {
+    "label": "Main navigation",
+    "home": "Home",
+    "addPlace": "Add place",
+    "login": "Login",
+    "register": "Register"
+  },
+  "pages": {
+    "addPlace": {
+      "title": "Add place",
+      "subtitle": "Later, this page will contain a form for adding a new place to the map."
+    },
+    "login": {
+      "title": "Login",
+      "subtitle": "Later, this page will contain the login form."
+    },
+    "register": {
+      "title": "Register",
+      "subtitle": "Later, this page will contain the account creation form."
+    },
+    "notFound": {
+      "title": "Page no found",
+      "subtitle": "This page does not exist yet.",
+      "backhome": "Back to home"
+    }
   }
 }

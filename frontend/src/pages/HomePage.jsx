@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
-import LanguageSwitcher from '../components/LanguageSwitcher';
-import ThemeSwitcher from '../components/ThemeSwitcher';
 import PageLoader from '../components/PageLoader';
 import PlaceModal from '../components/PlaceModal';
 import { placesStore } from '../stores/placesStore';
@@ -27,11 +25,6 @@ function HomePage() {
 
   return (
     <main className="page">
-      <header className="site-header">
-        <LanguageSwitcher />
-        <ThemeSwitcher />
-      </header>
-
       <section className="hero">
         <h1>{t('app.title')}</h1>
         <p>{t('app.subtitle')}</p>
