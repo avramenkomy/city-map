@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "i18next": "^26.3.6",
+    "mobx": "^6.16.1",
+    "mobx-react-lite": "^4.1.1",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-i18next": "^17.0.9"
