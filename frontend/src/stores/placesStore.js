@@ -1,11 +1,18 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
-import { getPlaces } from '../api/placesApi';
+import {
+  createPlace as CreatePlaceRequest, getCategories, getPlaces
+} from '../api/placesApi';
 
 class PlaceStore {
   places = [];
+  categories = [];
+
   loading = false;
+  isSave = false;
+
   error = null;
+  formErrors = null;
   selectedPlace = null;
 
   constructor() {
@@ -30,6 +37,47 @@ class PlaceStore {
       runInAction(() => {
         this.loading = false;
       })
+    }
+  }
+
+
+  async loadCategories() {
+    try {
+      const data = await getCategories();
+
+      runInAction(() => {
+        this.categories = data;
+      });
+    } catch(e) {
+      runInAction(() => {
+        this.error = e.message;
+      });
+    }
+  }
+
+
+  async createPlace(payload) {
+    this.isSave = true;
+    this.error = null;
+    this.formErrors = null;
+
+    try {
+      const place = await CreatePlaceRequest(payload);
+
+      runInAction(() => {
+        this.places = [place, ...this.places];
+      });
+
+      return true;
+    } catch(e) {
+      this.error = e.message;
+      this.formErrors = e.data;
+
+      return false;
+    } finally {
+      runInAction(() => {
+        this.isSave(false);
+      });
     }
   }
 

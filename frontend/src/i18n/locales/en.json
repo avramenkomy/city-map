@@ -27,7 +27,14 @@
     "close": "Close",
     "address": "Address",
     "author": "Author",
-    "createdAt": "Added"
+    "createdAt": "Added",
+    "title": "Title",
+    "description": "Description",
+    "selectCategory": "Select a category",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "create": "Create place",
+    "saving": "Saving..."
   },
   "navigation": {
     "label": "Main navigation",

@@ -27,7 +27,14 @@
     "close": "Закрыть",
     "address": "Адрес",
     "author": "Автор",
-    "createdAt": "Добавлено"
+    "createdAt": "Добавлено",
+    "title": "Название",
+    "description": "Описание",
+    "selectCategory": "Выберите категорию",
+    "latitude": "Широта",
+    "longitude": "Долгота",
+    "create": "Создать место",
+    "saving": "Сохраняем..."
   },
   "navigation": {
     "label": "Основная навигация",

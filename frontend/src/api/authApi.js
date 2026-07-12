@@ -1,57 +1,8 @@
-import { getCookie } from '../utils/cookies';
-
-
-async function ensureCsrfCookie() {
-  const response = await fetch('/api/auth/csrf', {
-    credentials: 'include'
-  });
-
-  if (!response.ok) {
-    throw new Error('Failed to prepare CSRF protection.');
-  }
-}
-
-
-async function requestJson(url, options={}) {
-  const response = await fetch(url, {
-    credentials: 'include',
-    ...options,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(options.headers || {}),
-    }
-  });
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    const error = new Error('Request failed.');
-    error.status = response.status;
-    error.data = data;
-    throw error;
-  }
-
-  return data;
-}
-
-
-async function postJson(url, payload={}) {
-  await ensureCsrfCookie();
-
-  const csrfToken = getCookie('csrftoken');
-
-  return requestJson(url, {
-    method: 'POST',
-    headers: {
-      'X-CSRFToken': csrfToken || '',
-    },
-    body: JSON.stringify(payload),
-  });
-}
+import { getJson, postJson } from './client';
 
 
 export function getCurrentUser() {
-  return requestJson('/api/auth/me/');
+  return getJson('/api/auth/me/');
 }
 
 

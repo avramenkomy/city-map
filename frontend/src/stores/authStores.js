@@ -8,6 +8,7 @@ import {
 class AuthStore {
   user = null;
   loading = false;
+  isAuthChecked = false;
   error = null;
   formErrors = null;
 
@@ -24,8 +25,12 @@ class AuthStore {
   }
 
   async loadCurrentUser() {
+    if (this.loading || this.isAuthChecked) {
+      return;
+    }
+
     this.loading = true;
-    this.error = '';
+    this.error = null;
 
     try {
       const data = await getCurrentUser();
@@ -41,6 +46,7 @@ class AuthStore {
     } finally {
       runInAction(() => {
         this.loading = false;
+        this.isAuthChecked = true;
       })
     }
   }
@@ -56,6 +62,7 @@ class AuthStore {
 
       runInAction(() => {
         this.user = user;
+        this.isAuthChecked = true;
       });
 
       return true;
@@ -82,6 +89,7 @@ class AuthStore {
 
       runInAction(() => {
         this.user = user;
+        this.isAuthChecked = true;
       });
 
       return true;
@@ -108,6 +116,7 @@ class AuthStore {
 
       runInAction(() => {
         this.user = null;
+        this.isAuthChecked = true;
       });
     } catch(e) {
       runInAction(() => {

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
-function PreLoader() {
+function PageLoader() {
   const { t } = useTranslation();
 
   return (
@@ -18,4 +18,4 @@ function PreLoader() {
   )
 }
 
-export default PreLoader;
+export default PageLoader;

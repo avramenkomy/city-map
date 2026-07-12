@@ -29,3 +29,22 @@ class PlaceSerializer(serializers.ModelSerializer):
             'created_at',
             'updated_at',
         )
+
+
+class PlaceCreateSerializaer(serializers.ModelSerializer):
+    category_id = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all(),
+        source='category',
+        write_only=True,
+    )
+
+    class Meta:
+        model = Place
+        fields = (
+            'category_id',
+            'title',
+            'description',
+            'address',
+            'latitude',
+            'longtitude',
+        )

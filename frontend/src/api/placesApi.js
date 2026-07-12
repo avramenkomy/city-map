@@ -1,9 +1,15 @@
+import { getJson, postJson } from './client';
+
 export async function getPlaces() {
-  const response = await fetch('/api/places/');
+  return getJson('/api/places');
+}
 
-  if (!response.ok) {
-    throw new Error('Failed to load places.');
-  }
 
-  return response.json();
+export async function getCategories() {
+  return getJson('/api/categories/');
+}
+
+
+export async function createPlace(payload) {
+  return postJson('/api/places/', payload);
 }
