@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 
+import 'maplibre-gl/dist/maplibre-gl.css';
+
 import './i18n';
 import { applyTheme, getSavedTheme } from './utils/theme.js';
 import App from './App.jsx';
+
 import './styles/main.scss';
 
 applyTheme(getSavedTheme());

@@ -3,6 +3,7 @@
 @use './base/motion';
 @use './animations/loader';
 @use './components/modal';
+@use './components/map';
 
 .app-shell {
   min-height: 100vh;

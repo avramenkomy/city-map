@@ -4,6 +4,7 @@ import { observer } from 'mobx-react-lite';
 
 import PageLoader from '../components/PageLoader';
 import PlaceModal from '../components/PlaceModal';
+import PlacesMap from '../components/PlacesMap';
 import { placesStore } from '../stores/placesStore';
 
 function HomePage() {
@@ -29,6 +30,11 @@ function HomePage() {
         <h1>{t('app.title')}</h1>
         <p>{t('app.subtitle')}</p>
       </section>
+
+      <PlacesMap
+        places={placesStore.places}
+        onPlaceClick={place => placesStore.selectPlace(place)}
+      />
 
       <section className="places-list">
         {!placesStore.hasPlaces
