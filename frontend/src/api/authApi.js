@@ -55,8 +55,8 @@ export function getCurrentUser() {
 }
 
 
-export function registerUser() {
-  return postJson('/api/auth/register/');
+export function registerUser(payload) {
+  return postJson('/api/auth/register/', payload);
 }
 
 

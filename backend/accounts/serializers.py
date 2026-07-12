@@ -59,7 +59,7 @@ class RegisterSerializer(serializers.Serializer):
         validated_data.pop('password_confirm')
         password = validated_data.pop('password')
 
-        return User.object.create_user(
+        return User.objects.create_user(
             password=password,
             **validated_data
         )

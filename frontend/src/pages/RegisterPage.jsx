@@ -19,7 +19,7 @@ function RegisterPage() {
 
 
   function handleChange(event) {
-    const { name, value } = event.current;
+    const { name, value } = event.target;
 
     setForm(prevState => ({
       ...prevState,
@@ -100,7 +100,7 @@ function RegisterPage() {
           <span>{t('auth.passwordConfirm')}</span>
 
           <input
-            name="passwordConfirm"
+            name="password_confirm"
             type="password"
             autoComplete="new-password"
             value={form.password_confirm}
