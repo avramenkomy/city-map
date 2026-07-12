@@ -1,11 +1,18 @@
+import { useEffect } from 'react';
 import { NavLink, Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { observer } from 'mobx-react-lite';
 
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeSwitcher from './ThemeSwitcher';
+import { authStore } from '../stores/authStores';
 
 function Layout() {
   const { t } = useTranslation();
+
+  useEffect(() => {
+    authStore.loadCurrentUser();
+  });
 
   return (
     <div className="app-shell">
@@ -19,16 +26,36 @@ function Layout() {
             {t('navigation.addPlace')}
           </NavLink>
 
-          <NavLink to="/login">
-            {t('navigation.login')}
-          </NavLink>
+          {!authStore.isAuthenticated &&
+            <>
+              <NavLink to="/login">
+                {t('navigation.login')}
+              </NavLink>
 
-          <NavLink to="/register">
-            {t('navigation.register')}
-          </NavLink>
+              <NavLink to="/register">
+                {t('navigation.register')}
+              </NavLink>
+            </>
+          }
         </nav>
 
         <div className="site-header__actions">
+          {authStore.isAuthenticated &&
+            <div className="user-panel">
+              <span className="user-panel__name">
+                {authStore.username}
+              </span>
+
+              <button
+                className="user-panel__button"
+                type="button"
+                onClick={() => authStore.logout()}
+              >
+                {t('auth.logout')}
+              </button>
+            </div>
+          }
+
           <ThemeSwitcher />
           <LanguageSwitcher />
         </div>
@@ -41,4 +68,4 @@ function Layout() {
   )
 }
 
-export default Layout;
+export default observer(Layout);

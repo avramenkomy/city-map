@@ -54,5 +54,15 @@
       "subtitle": "This page does not exist yet.",
       "backhome": "Back to home"
     }
+  },
+  "auth": {
+    "username": "Username",
+    "email": "Email",
+    "password": "Password",
+    "passwordConfirm": "Repeat password",
+    "login": "Log in",
+    "register": "Register",
+    "logout": "Log out",
+    "submitting": "Submitting..."
   }
 }

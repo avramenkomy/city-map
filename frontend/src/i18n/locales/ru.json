@@ -54,5 +54,15 @@
       "subtitle": "Такой страницы пока нет.",
       "backhome": "Вернуться на главную"
     }
+  },
+  "auth": {
+    "username": "Имя пользователя",
+    "email": "Email",
+    "password": "Пароль",
+    "passwordConfirm": "Повторите пароль",
+    "login": "Войти",
+    "register": "Зарегистрироваться",
+    "logout": "Выйти",
+    "submitting": "Отправляем..."
   }
 }
