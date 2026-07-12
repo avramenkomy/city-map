@@ -38,7 +38,9 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",
+    host.strip()
+    for host in os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
+    if host.strip()
 ]
 
 
