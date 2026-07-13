@@ -5,6 +5,7 @@
 @use './components/modal';
 @use './components/map';
 @use './components/location-picker-field';
+@use './components/filters';
 
 .app-shell {
   min-height: 100vh;

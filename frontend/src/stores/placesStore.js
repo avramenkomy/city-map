@@ -8,8 +8,15 @@ class PlaceStore {
   places = [];
   categories = [];
 
+  filters = {
+    category: '',
+    search: '',
+  }
+
   loading = false;
   isSave = false;
+  isCategoriesLoading = false;
+  categoriesLoaded = false;
 
   error = null;
   formErrors = null;
@@ -20,12 +27,13 @@ class PlaceStore {
     makeAutoObservable(this);
   }
 
+
   async loadPlaces() {
     this.loading = true;
     this.error = null;
 
     try {
-      const data = await getPlaces();
+      const data = await getPlaces(this.filters);
 
       runInAction(() => {
         this.places = data;
@@ -43,16 +51,25 @@ class PlaceStore {
 
 
   async loadCategories() {
+    if (this.isCategoriesLoading || this.categoriesLoaded) {
+      return;
+    }
+
+    this.isCategoriesLoading = true;
+
     try {
       const data = await getCategories();
 
       runInAction(() => {
         this.categories = data;
+        this.categoriesLoaded = true;
       });
     } catch(e) {
       runInAction(() => {
         this.error = e.message;
       });
+    } finally {
+      this.isCategoriesLoading = false;
     }
   }
 
@@ -82,21 +99,52 @@ class PlaceStore {
     }
   }
 
+
+  async setCategoryFilter(category) {
+    this.filters.category = category;
+    await this.loadPlaces();
+  }
+
+
+  async setSearchFilter(search) {
+    this.filters.search = search;
+    await this.loadPlaces();
+  }
+
+
+  async resetFilters() {
+    this.filters = {
+      category: '',
+      search: '',
+    }
+
+    await this.loadPlaces();
+  }
+
+
   selectPlace(place) {
     this.selectedPlace = place;
   }
+
 
   focusPlace(place) {
     this.focusedPlace = place;
     this.selectedPlace = place;
   }
 
+
   closePlaceModal() {
     this.selectedPlace = null;
   }
 
+
   get hasPlaces() {
     return this.places.length > 0;
+  }
+
+
+  getHasActiveFilters() {
+    return Boolean(this.filters.category || this.filters.search);
   }
 }
 

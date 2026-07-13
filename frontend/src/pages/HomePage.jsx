@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
+import PlacesFilters from '../components/PlacesFilters';
 import PageLoader from '../components/PageLoader';
 import PlaceModal from '../components/PlaceModal';
 import PlacesMap from '../components/PlacesMap';
@@ -12,6 +13,7 @@ function HomePage() {
 
   useEffect(() => {
     placesStore.loadPlaces();
+    placesStore.loadCategories();
   }, []);
 
   if (placesStore.loading) return <PageLoader />
@@ -30,6 +32,8 @@ function HomePage() {
         <h1>{t('app.title')}</h1>
         <p>{t('app.subtitle')}</p>
       </section>
+
+      <PlacesFilters />
 
       <PlacesMap
         places={placesStore.places}

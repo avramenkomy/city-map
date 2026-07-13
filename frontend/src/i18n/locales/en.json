@@ -38,7 +38,12 @@
     "showOnMap": "Show on map",
     "pickLocation": "Pick a location on the map",
     "pickLocationHint": "Click on the map to automatically fill latitude and longitude.",
-    "image": "Picture"
+    "image": "Picture",
+    "filters": "Place filters",
+    "allCategories": "All categories",
+    "search": "Search",
+    "searchPlaceholder": "Title, description, or address",
+    "resetFilters": "Reset"
   },
   "navigation": {
     "label": "Main navigation",
