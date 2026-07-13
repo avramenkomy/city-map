@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
@@ -7,6 +8,20 @@ import { placesStore } from '../stores/placesStore';
 function PlacesFilters() {
   const { t } = useTranslation();
 
+  const [searchVal, setSearchVal] = useState(placesStore.filters.search);
+
+  useEffect(() => {
+    const timerId = setTimeout(() => {
+      if (searchVal !== placesStore.filters.search) {
+        placesStore.setSearchFilter(searchVal);
+      }
+    }, 400);
+
+    return () => {
+      clearTimeout(timerId);
+    };
+  }, [searchVal]);
+
 
   function handleCategoryFilterOnChange(event) {
     placesStore.setCategoryFilter(event.target.value);
@@ -14,11 +29,12 @@ function PlacesFilters() {
 
 
   function handleSearchOnChange(event) {
-    placesStore.setSearchFilter(event.target.value);
+    setSearchVal(event.target.value);
   }
 
 
   function resetFilters() {
+    setSearchVal('');
     placesStore.resetFilters();
   }
 
@@ -46,7 +62,7 @@ function PlacesFilters() {
 
         <input
           type="search"
-          value={placesStore.filters.search}
+          value={searchVal}
           placeholder={t('places.searchPlaceholder')}
           onChange={handleSearchOnChange}
         />
