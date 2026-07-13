@@ -35,7 +35,9 @@
     "longitude": "Longitude",
     "create": "Create place",
     "saving": "Saving...",
-    "showOnMap": "Show on map"
+    "showOnMap": "Show on map",
+    "pickLocation": "Pick a location on the map",
+    "pickLocationHint": "Click on the map to automatically fill latitude and longitude."
   },
   "navigation": {
     "label": "Main navigation",

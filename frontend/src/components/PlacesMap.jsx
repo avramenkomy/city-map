@@ -1,6 +1,10 @@
 import { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 
+import {
+  DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM, getOsmRasterStyle,
+} from '../config/map';
+
 function PlacesMap(props) {
   const { places, focusedPlace, onPlaceClick } = props;
 
@@ -13,31 +17,9 @@ function PlacesMap(props) {
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
-      // demo style
-      // style: 'https://demotiles.maplibre.org/style.json',
-      style: {
-        version: 8,
-        sources: {
-          osm: {
-            type: 'raster',
-            tiles: [
-              'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-            ],
-            tileSize: 256,
-            attribution:
-              '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-          },
-        },
-        layers: [
-          {
-            id: 'osm',
-            type: 'raster',
-            source: 'osm',
-          },
-        ],
-      },
-      center: [37.618423, 55.751244],
-      zoom: 10,
+      style: getOsmRasterStyle(),
+      center: DEFAULT_MAP_CENTER,
+      zoom: DEFAULT_MAP_ZOOM,
     });
 
     map.addControl(new maplibregl.NavigationControl(), 'top-right');

@@ -7,6 +7,7 @@ import { authStore } from '../stores/authStores';
 import { placesStore } from '../stores/placesStore';
 
 import PageLoader from '../components/PageLoader';
+import LocationPickerMap from '../components/LocationPickerMap';
 
 
 function AddPlacePage() {
@@ -33,6 +34,15 @@ function AddPlacePage() {
     setForm(prevState => ({
       ...prevState,
       [name]: value,
+    }));
+  }
+
+
+  function handleLocationChange(location) {
+    setForm(prevState => ({
+      ...prevState,
+      latitude: location.latitude,
+      longitude: location.longitude,
     }));
   }
 
@@ -121,6 +131,22 @@ function AddPlacePage() {
             onChange={handleChange}
           />
         </label>
+
+        <div className="location-picker-field">
+          <span className="location-picker-field__label">
+            {t('places.pickLocation')}
+          </span>
+
+          <LocationPickerMap
+            latitude={form.latitude}
+            longitude={form.longitude}
+            onChange={handleLocationChange}
+          />
+
+          <p className="location-picker-field__hint">
+            {t('places.pickLocationHint')}
+          </p>
+        </div>
 
         <label>
           <span>{t('places.latitude')}</span>

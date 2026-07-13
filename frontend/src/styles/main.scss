@@ -4,6 +4,7 @@
 @use './animations/loader';
 @use './components/modal';
 @use './components/map';
+@use './components/location-picker-field';
 
 .app-shell {
   min-height: 100vh;
