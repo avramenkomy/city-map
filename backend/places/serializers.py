@@ -23,7 +23,7 @@ class PlaceSerializer(serializers.ModelSerializer):
             'description',
             'address',
             'latitude',
-            'longtitude',
+            'longitude',
             'image',
             'is_published',
             'created_at',
@@ -46,5 +46,5 @@ class PlaceCreateSerializaer(serializers.ModelSerializer):
             'description',
             'address',
             'latitude',
-            'longtitude',
+            'longitude',
         )

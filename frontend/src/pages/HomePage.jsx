@@ -49,7 +49,7 @@ function HomePage() {
                   {t('places.category')}: {place.category?.name || t('places.withoutCategory')}
                 </p>
                 <p>
-                  {t('places.coordinates')}: {place.latitude}, {place.longtitude}
+                  {t('places.coordinates')}: {place.latitude}, {place.longitude}
                 </p>
 
                 <div className="place-card__actions">

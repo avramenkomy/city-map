@@ -60,7 +60,7 @@ function PlaceModal({ place, onClose }) {
 
           <div>
             <dt>{t('places.coordinates')}</dt>
-            <dd>{`${place.latitude}, ${place.longtitude}`}</dd>
+            <dd>{`${place.latitude}, ${place.longitude}`}</dd>
           </div>
 
           <div>
