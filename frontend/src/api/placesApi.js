@@ -1,4 +1,4 @@
-import { getJson, postJson } from './client';
+import { getJson, postFormData } from './client';
 
 export async function getPlaces() {
   return getJson('/api/places');
@@ -10,6 +10,6 @@ export async function getCategories() {
 }
 
 
-export async function createPlace(payload) {
-  return postJson('/api/places/', payload);
+export async function createPlace(formData) {
+  return postFormData('/api/places/', formData);
 }

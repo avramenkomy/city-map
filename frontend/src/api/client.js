@@ -56,3 +56,18 @@ export async function postJson(url, payload={}) {
     body: JSON.stringify(payload),
   });
 }
+
+
+export async function postFormData(url, formData) {
+  await ensureCsrfCookie();
+
+  const csrfToken = getCookie('csrftoken');
+
+  return requestJson(url, {
+    method: 'POST',
+    headers: {
+      'X-CSRFToken': csrfToken || '',
+    },
+    body: formData,
+  })
+}

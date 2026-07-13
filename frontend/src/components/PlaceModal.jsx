@@ -43,6 +43,12 @@ function PlaceModal({ place, onClose }) {
 
         <h2 id="place-modal-title">{place.title}</h2>
 
+        {place.image && <img
+          className="place-modal__image"
+          src={place.image}
+          alt={place.title}
+        />}
+
         <p className="place-modal__description">
           {place.description || t('places.descriptionFallback')}
         </p>

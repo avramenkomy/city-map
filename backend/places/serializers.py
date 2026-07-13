@@ -47,4 +47,5 @@ class PlaceCreateSerializaer(serializers.ModelSerializer):
             'address',
             'latitude',
             'longitude',
+            'image',
         )

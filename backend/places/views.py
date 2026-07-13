@@ -2,6 +2,7 @@ from rest_framework.generics import ListAPIView, RetrieveAPIView, ListCreateAPIV
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
+from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
 from .models import Category, Place
 from .serializers import CategorySerializer, PlaceSerializer, PlaceCreateSerializaer
@@ -15,6 +16,7 @@ class CategoryListAPIView(ListAPIView):
 
 class PlaceListCreateAPIView(ListCreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
+    parser_classes = [JSONParser, FormParser, MultiPartParser]
 
     def get_queryset(self):
         return (

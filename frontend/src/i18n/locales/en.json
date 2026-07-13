@@ -37,7 +37,8 @@
     "saving": "Saving...",
     "showOnMap": "Show on map",
     "pickLocation": "Pick a location on the map",
-    "pickLocationHint": "Click on the map to automatically fill latitude and longitude."
+    "pickLocationHint": "Click on the map to automatically fill latitude and longitude.",
+    "image": "Picture"
   },
   "navigation": {
     "label": "Main navigation",

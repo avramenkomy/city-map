@@ -21,6 +21,7 @@ function AddPlacePage() {
     address: '',
     latitude: '',
     longitude: '',
+    image: null,
   });
 
   useEffect(() => {
@@ -50,9 +51,30 @@ function AddPlacePage() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const success = await placesStore.createPlace(form);
+    const formData = new FormData();
+
+    formData.append('category_id', form.category_id);
+    formData.append('title', form.title);
+    formData.append('description', form.description);
+    formData.append('address', form.address);
+    formData.append('latitude', form.latitude);
+    formData.append('longitude', form.longitude);
+
+    if (form.image) formData.append('image', form.image);
+
+    const success = await placesStore.createPlace(formData);
 
     if (success) navigate('/');
+  }
+
+
+  function handleFileChange(event) {
+    const file = event.target.files?.[0] || null;
+
+    setForm(prevState => ({
+      ...prevState,
+      image: file,
+    }))
   }
 
   if (!authStore.isAuthChecked) {
@@ -129,6 +151,17 @@ function AddPlacePage() {
             type="address"
             value={form.address}
             onChange={handleChange}
+          />
+        </label>
+
+        <label>
+          <span>{t('places.image')}</span>
+
+          <input
+            name="image"
+            type="file"
+            accept="image/*"
+            onChange={handleFileChange}
           />
         </label>
 

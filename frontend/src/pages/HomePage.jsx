@@ -43,6 +43,13 @@ function HomePage() {
 
           : placesStore.places.map((place) => (
               <article className="place-card" key={place.id}>
+                {place.image &&
+                  <img
+                    className="place-card__image"
+                    src={place.image}
+                    alt={place.title}
+                  />
+                }
                 <h2>{place.title}</h2>
                 <p>{place.description || t('places.descriptionFallback')}</p>
                 <p>
