@@ -77,7 +77,7 @@ class PlaceStore {
       return false;
     } finally {
       runInAction(() => {
-        this.isSave(false);
+        this.isSave = false;
       });
     }
   }
