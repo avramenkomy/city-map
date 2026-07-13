@@ -34,7 +34,8 @@
     "latitude": "Latitude",
     "longitude": "Longitude",
     "create": "Create place",
-    "saving": "Saving..."
+    "saving": "Saving...",
+    "showOnMap": "Show on map"
   },
   "navigation": {
     "label": "Main navigation",

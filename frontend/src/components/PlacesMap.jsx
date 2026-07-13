@@ -2,19 +2,18 @@ import { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 
 function PlacesMap(props) {
-  const { places, onPlaceClick } = props;
+  const { places, focusedPlace, onPlaceClick } = props;
 
   const mapContainerRef = useRef(null);
   const mapRef = useRef(null);
   const markersRef = useRef([]);
 
   useEffect(() => {
-    if (!mapContainerRef.current || mapRef.current) {
-      return;
-    }
+    if (!mapContainerRef.current || mapRef.current) return;
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
+      // demo style
       // style: 'https://demotiles.maplibre.org/style.json',
       style: {
         version: 8,
@@ -46,6 +45,10 @@ function PlacesMap(props) {
     mapRef.current = map;
 
     return () => {
+      markersRef.current.forEach(marker => marker.remove());
+
+      markersRef.current = [];
+
       map.remove();
       mapRef.current = null;
     }
@@ -56,18 +59,33 @@ function PlacesMap(props) {
 
     if (!map) return;
 
+    markersRef.current.forEach(marker => {
+      marker.remove();
+    });
+
     markersRef.current = [];
+
+    const bounds = new maplibregl.LngLatBounds();
 
     places.forEach(place => {
       const latitude = Number(place.latitude);
       const longitude = Number(place.longitude);
 
-      if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
-        return;
-      }
+      if (Number.isNaN(latitude) || Number.isNaN(longitude)) return;
+
+      const popup = new maplibregl.Popup({
+        offset: 24,
+      }).setHTML(`
+        <strong>${place.title}</strong>
+        <br />
+        <span>${place.category?.name || ''}</span>
+        <br />
+        <span>${place.address || ''}</span>
+      `);
 
       const marker = new maplibregl.Marker()
-        .setLngLat([latitude, longitude])
+        .setLngLat([longitude, latitude])
+        .setPopup(popup)
         .addTo(map);
 
       marker.getElement().addEventListener('click', () => {
@@ -75,8 +93,34 @@ function PlacesMap(props) {
       });
 
       markersRef.current.push(marker);
+      bounds.extend([longitude, latitude]);
     });
+
+    if (!bounds.isEmpty()) {
+      map.fitBounds(bounds, {
+        padding: 60,
+        maxZoom: 14,
+      })
+    }
+
   }, [places, onPlaceClick]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+
+    if (!map || !focusedPlace) return;
+
+    const latitude = Number(focusedPlace.latitude);
+    const longitude = Number(focusedPlace.longitude);
+
+    if (Number.isNaN(latitude) || Number.isNaN(longitude)) return;
+
+    map.flyTo({
+      center: [longitude, latitude],
+      zoom: 14,
+      essential: true,
+    });
+  }, [focusedPlace]);
 
   return (
     <section className="map-section">

@@ -33,6 +33,7 @@ function HomePage() {
 
       <PlacesMap
         places={placesStore.places}
+        focusedPlace={placesStore.focusedPlace}
         onPlaceClick={place => placesStore.selectPlace(place)}
       />
 
@@ -51,13 +52,23 @@ function HomePage() {
                   {t('places.coordinates')}: {place.latitude}, {place.longtitude}
                 </p>
 
-                <button
-                  className="place-card__button"
-                  type="button"
-                  onClick={() => placesStore.selectPlace(place)}
-                >
-                  {t('places.details')}
-                </button>
+                <div className="place-card__actions">
+                  <button
+                    className="place-card__button"
+                    type="button"
+                    onClick={() => placesStore.selectPlace(place)}
+                  >
+                    {t('places.details')}
+                  </button>
+
+                  <button
+                    className="place-card__button place-card__button--secondary"
+                    type="button"
+                    onClick={() => placesStore.focusPlace(place)}
+                  >
+                    {t('places.showOnMap')}
+                  </button>
+                </div>
               </article>
             ))
         }

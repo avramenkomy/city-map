@@ -14,6 +14,7 @@ class PlaceStore {
   error = null;
   formErrors = null;
   selectedPlace = null;
+  focusedPlace = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -82,6 +83,11 @@ class PlaceStore {
   }
 
   selectPlace(place) {
+    this.selectedPlace = place;
+  }
+
+  focusPlace(place) {
+    this.focusedPlace = place;
     this.selectedPlace = place;
   }
 

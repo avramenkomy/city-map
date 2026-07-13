@@ -90,14 +90,26 @@
     margin: 0 0 8px;
   }
 
-  .place-card__button {
+  .place-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
     margin-top: 12px;
+  }
+
+  .place-card__button {
     padding: 10px 14px;
     border: 0;
     border-radius: 999px;
     background: var(--color-primary);
     color: var(--color-primary-text);
     cursor: pointer;
+  }
+
+  .place-card__button--secondary {
+    border: 1px solid var(--color-border);
+    background: transparent;
+    color: var(--color-text);
   }
 }
 
