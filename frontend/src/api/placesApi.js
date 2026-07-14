@@ -1,4 +1,6 @@
-import { getJson, postFormData } from './client';
+import {
+  getJson, postFormData, patchFormData, deleteJson,
+} from './client';
 
 export async function getPlaces(filters={}) {
   const params = new URLSearchParams();
@@ -18,6 +20,11 @@ export async function getPlaces(filters={}) {
 }
 
 
+export function getPlace(id) {
+  return getJson(`/api/places/${id}/`);
+}
+
+
 export async function getCategories() {
   return getJson('/api/categories/');
 }
@@ -25,4 +32,15 @@ export async function getCategories() {
 
 export async function createPlace(formData) {
   return postFormData('/api/places/', formData);
+}
+
+
+export async function updatePlace(id, formData) {
+  return patchFormData(`/api/places/${id}/`, formData);
+}
+
+
+
+export async function deletePlace(id) {
+  return deleteJson(`/api/places/${id}/`);
 }

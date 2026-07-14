@@ -43,7 +43,14 @@
     "allCategories": "Все категории",
     "search": "Поиск",
     "searchPlaceholder": "Название, описание или адрес",
-    "resetFilters": "Сбросить"
+    "resetFilters": "Сбросить",
+    "edit": "Редактировать",
+    "delete": "Удалить",
+    "deleteConfirm": "Удалить это место?",
+    "currentImage": "Текущее изображение",
+    "newImage": "Новое изображение",
+    "update": "Обновить",
+    "updating": "Обновление..."
   },
   "navigation": {
     "label": "Основная навигация",

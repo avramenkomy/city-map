@@ -43,7 +43,14 @@
     "allCategories": "All categories",
     "search": "Search",
     "searchPlaceholder": "Title, description, or address",
-    "resetFilters": "Reset"
+    "resetFilters": "Reset",
+    "edit": "Edit",
+    "delete": "Delete",
+    "deleteConfirm": "Delete this place?",
+    "currentImage": "Current image",
+    "newImage": "New image",
+    "update": "Save changes",
+    "updating": "Saving changes..."
   },
   "navigation": {
     "label": "Main navigation",

@@ -71,3 +71,32 @@ export async function postFormData(url, formData) {
     body: formData,
   })
 }
+
+
+export async function patchFormData(url, formData) {
+  await ensureCsrfCookie();
+
+  const csrfToken = getCookie('csrftoken');
+
+  return requestJson(url, {
+    method: 'PATCH',
+    headers: {
+      'X-CSRFToken': csrfToken || '',
+    },
+    body: formData,
+  });
+}
+
+
+export async function deleteJson(url) {
+  await ensureCsrfCookie();
+
+  const csrfToken = getCookie();
+
+  return requestJson(url, {
+    method: 'DELETE',
+    headers: {
+      'X-CSRFToken': csrfToken || '',
+    },
+  });
+}

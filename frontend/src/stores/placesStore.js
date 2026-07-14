@@ -1,7 +1,13 @@
 import { makeAutoObservable, runInAction } from 'mobx';
 
 import {
-  createPlace as CreatePlaceRequest, getCategories, getPlaces
+  getCategories,
+
+  getPlaces, getPlace,
+
+  createPlace as CreatePlaceRequest,
+  updatePlace as updatePlaceRequest,
+  deletePlace as deletePlaceRequest,
 } from '../api/placesApi';
 
 class PlaceStore {
@@ -25,6 +31,84 @@ class PlaceStore {
 
   constructor() {
     makeAutoObservable(this);
+  }
+
+
+  async loadPlace(id) {
+    this.loading = true;
+    this.error = null;
+
+    try {
+      const place = await getPlace(id);
+      return place;
+    } catch(e) {
+      runInAction(() => this.error = e.message);
+      return null;
+    } finally {
+      runInAction(() => this.loading = false);
+    }
+  }
+
+
+  async updatePlace(id, payload) {
+    this.isSave = true;
+    this.error = null;
+    this.formErrors = null;
+
+    try {
+      const updatedPlace = await updatePlaceRequest(id, payload);
+
+      runInAction(() => {
+        this.places = this.places.map(place => (
+          place.id === updatedPlace.id ? updatedPlace : place
+        ));
+
+        if (this.selectedPlace.id === updatedPlace.id) {
+          this.selectedPlace = updatedPlace;
+        }
+
+        if (this.focusedPlace.id === updatedPlace) {
+          this.focusedPlace = updatedPlace;
+        }
+      });
+
+      return true;
+    } catch(e) {
+      runInAction(() => {
+        this.formErrors = e.data;
+        this.error = e.message;
+      });
+
+      return false;
+    } finally {
+      runInAction(() => {
+        this.isSave = false;
+      });
+    }
+  }
+
+
+  async deletePlace(id) {
+    this.isSave = true;
+    this.error = null;
+
+    try {
+      await deletePlaceRequest(id);
+
+      runInAction(() => {
+        this.places = this.places.filter(place => place.id !== id);
+
+        if (this.selectedPlace.id === id) this.selectedPlace = null;
+
+        if (this.focusedPlace === id) this.focusedPlace = null;
+      });
+      return true;
+
+    } catch(e) {
+      runInAction(() => this.error = e.message);
+    } finally {
+      runInAction(() => this.isSave = false);
+    }
   }
 
 
@@ -135,6 +219,12 @@ class PlaceStore {
 
   closePlaceModal() {
     this.selectedPlace = null;
+  }
+
+
+  clearFormErrors() {
+    this.formErrors = null;
+    this.error = null;
   }
 
 

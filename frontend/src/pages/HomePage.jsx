@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
@@ -6,7 +7,9 @@ import PlacesFilters from '../components/PlacesFilters';
 import PageLoader from '../components/PageLoader';
 import PlaceModal from '../components/PlaceModal';
 import PlacesMap from '../components/PlacesMap';
+
 import { placesStore } from '../stores/placesStore';
+import { authStore } from '../stores/authStores';
 
 function HomePage() {
   const { t } = useTranslation();
@@ -15,6 +18,15 @@ function HomePage() {
     placesStore.loadPlaces();
     placesStore.loadCategories();
   }, []);
+
+
+  async function confirmDelete(place_id) {
+    const confirmed = window.confirm(t('places.confirmDelete'));
+
+    if (confirmed) {
+      await placesStore.deletePlace(place_id);
+    }
+  }
 
   if (placesStore.loading) return <PageLoader />
 
@@ -45,8 +57,10 @@ function HomePage() {
         {!placesStore.hasPlaces
           ? <p>{t('places.empty')}</p>
 
-          : placesStore.places.map((place) => (
-              <article className="place-card" key={place.id}>
+          : placesStore.places.map((place) => {
+              const canManagePlace = authStore.username === place.author_username;
+
+              return <article className="place-card" key={place.id}>
                 {place.image &&
                   <img
                     className="place-card__image"
@@ -79,9 +93,28 @@ function HomePage() {
                   >
                     {t('places.showOnMap')}
                   </button>
+
+                  {canManagePlace &&
+                    <>
+                      <Link
+                        className="place-card__button place-card__button--secondary"
+                        to={`/places/${place.id}/edit`}
+                      >
+                        {t('places.edit')}
+                      </Link>
+
+                      <button
+                        className="place-card__button place-card__button--danger"
+                        type="button"
+                        onClick={() => confirmDelete(place.id)}
+                      >
+                        {t('places.delete')}
+                      </button>
+                    </>
+                  }
                 </div>
               </article>
-            ))
+            })
         }
       </section>
 

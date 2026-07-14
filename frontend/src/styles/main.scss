@@ -99,6 +99,10 @@
     margin-top: 12px;
   }
 
+  .place-card__actions a {
+    text-decoration: none;
+  }
+
   .place-card__button {
     padding: 10px 14px;
     border: 0;
@@ -113,6 +117,19 @@
     background: transparent;
     color: var(--color-text);
   }
+
+  .place-card__button--danger {
+    background: #f46464;
+    color: #fff;
+  }
+
+  .place-card__button--danger:hover {
+    background: #dc2626;
+  }
+
+  .place-card__button--danger:disabled {
+    cursor: not-allowed;
+  }
 }
 
 .place-card__image {
@@ -122,6 +139,24 @@
   margin-bottom: 16px;
   object-fit: cover;
   border-radius: calc(var(--radius-md) - 4px);
+}
+
+.place-edit-image {
+  display: grid;
+  gap: 8px;
+
+  span {
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    max-height: 220px;
+    object-fit: cover;
+    border-radius: calc(var(--radius-md) - 4px);
+  }
 }
 
 .language-switcher,
