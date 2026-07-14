@@ -3,11 +3,12 @@ import { Navigate, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
+import PageLoader from '../components/PageLoader';
+import PlaceForm from '../components/PlaceForm';
+
 import { authStore } from '../stores/authStores';
 import { placesStore } from '../stores/placesStore';
-
-import PageLoader from '../components/PageLoader';
-import LocationPickerMap from '../components/LocationPickerMap';
+import { buildPlaceFormData } from '../utils/placeFormData';
 
 
 function AddPlacePage() {
@@ -25,6 +26,7 @@ function AddPlacePage() {
   });
 
   useEffect(() => {
+    placesStore.clearFormErrors();
     placesStore.loadCategories();
   }, []);
 
@@ -35,6 +37,16 @@ function AddPlacePage() {
     setForm(prevState => ({
       ...prevState,
       [name]: value,
+    }));
+  }
+
+
+  function handleChangeFile(event) {
+    const file = event.target.files?.[0] || null;
+
+    setForm(prevState => ({
+      ...prevState,
+      image: file,
     }));
   }
 
@@ -51,30 +63,10 @@ function AddPlacePage() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    const formData = new FormData();
-
-    formData.append('category_id', form.category_id);
-    formData.append('title', form.title);
-    formData.append('description', form.description);
-    formData.append('address', form.address);
-    formData.append('latitude', form.latitude);
-    formData.append('longitude', form.longitude);
-
-    if (form.image) formData.append('image', form.image);
-
+    const formData = buildPlaceFormData(form);
     const success = await placesStore.createPlace(formData);
 
     if (success) navigate('/');
-  }
-
-
-  function handleFileChange(event) {
-    const file = event.target.files?.[0] || null;
-
-    setForm(prevState => ({
-      ...prevState,
-      image: file,
-    }))
   }
 
   if (!authStore.isAuthChecked) {
@@ -90,133 +82,19 @@ function AddPlacePage() {
       <h1>{t('pages.addPlace.title')}</h1>
       <p>{t('pages.addPlace.subtitle')}</p>
 
-      <form className="auth-form" onSubmit={handleSubmit}>
-        <label>
-          <span>{t('places.category')}</span>
-          <select
-            name="category_id"
-            value={form.category_id}
-            onChange={handleChange}
-          >
-            <option value="">{t('places.selectCategory')}</option>
-
-            {placesStore.categories.map(category => (
-              <option key={category.id} value={category.id}>
-                {category.name}
-              </option>
-            ))}
-          </select>
-        </label>
-
-        {placesStore.formErrors?.caregory_id &&
-          <p className="form-error">
-            {placesStore.formErrors.category_id.join(' ')}
-          </p>
-        }
-
-        <label>
-          <span>{t('places.title')}</span>
-
-          <input
-            name="title"
-            type="text"
-            value={form.title}
-            onChange={handleChange}
-          />
-        </label>
-
-        {placesStore.formErrors?.title &&
-          <p className="form-error">
-            {placesStore.formErrors.title.join(' ')}
-          </p>
-        }
-
-        <label>
-          <span>{t('places.description')}</span>
-
-          <textarea
-            name="description"
-            rows={4}
-            value={form.description}
-            onChange={handleChange}
-          />
-        </label>
-
-
-        <label>
-          <span>{t('places.address')}</span>
-
-          <input
-            name="address"
-            type="address"
-            value={form.address}
-            onChange={handleChange}
-          />
-        </label>
-
-        <label>
-          <span>{t('places.image')}</span>
-
-          <input
-            name="image"
-            type="file"
-            accept="image/*"
-            onChange={handleFileChange}
-          />
-        </label>
-
-        <div className="location-picker-field">
-          <span className="location-picker-field__label">
-            {t('places.pickLocation')}
-          </span>
-
-          <LocationPickerMap
-            latitude={form.latitude}
-            longitude={form.longitude}
-            onChange={handleLocationChange}
-          />
-
-          <p className="location-picker-field__hint">
-            {t('places.pickLocationHint')}
-          </p>
-        </div>
-
-        <label>
-          <span>{t('places.latitude')}</span>
-          <input
-            name="latitude"
-            type="text"
-            value={form.latitude}
-            onChange={handleChange}
-          />
-        </label>
-
-        {placesStore.formErrors?.latitude &&
-          <p className="form-error">
-            {placesStore.formErrors.latitude.join(' ')}
-          </p>
-        }
-
-        <label>
-          <span>{t('places.longitude')}</span>
-          <input
-            name="longitude"
-            type="text"
-            value={form.longitude}
-            onChange={handleChange}
-          />
-        </label>
-
-        {placesStore.formErrors?.longitude &&
-          <p className="form-error">
-            {placesStore.formErrors.longitude.join(' ')}
-          </p>
-        }
-
-        <button type="submit" disabled={placesStore.isSave}>
-          {placesStore.isSave ? t('places.saving') : t('places.create')}
-        </button>
-      </form>
+      <PlaceForm
+        form={form}
+        categories={placesStore.categories}
+        formErrors={placesStore.formErrors}
+        isSave={placesStore.isSave}
+        currentImage={null}
+        submitLabel={t('places.create')}
+        savingLabel={t('places.saving')}
+        onSubmit={handleSubmit}
+        onChangeForm={handleChange}
+        onChangeFile={handleChangeFile}
+        onChangeLocation={handleLocationChange}
+      />
     </section>
   )
 }
