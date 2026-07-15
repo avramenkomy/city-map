@@ -25,6 +25,11 @@ export function getPlace(id) {
 }
 
 
+export function getMyPlaces() {
+  return getJson('/api/places/?mine=1');
+}
+
+
 export async function getCategories() {
   return getJson('/api/categories/');
 }

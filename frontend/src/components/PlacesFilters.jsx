@@ -68,7 +68,7 @@ function PlacesFilters() {
         />
       </label>
 
-      {placesStore.getHasActiveFilters &&
+      {placesStore.hasActiveFilters &&
         <button type="button" onClick={resetFilters}>
           {t('places.resetFilters')}
         </button>

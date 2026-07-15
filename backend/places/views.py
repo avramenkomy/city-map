@@ -37,9 +37,16 @@ class PlaceListCreateAPIView(ListCreateAPIView):
 
         category_id = self.request.query_params.get('category')
         search = self.request.query_params.get('search', '').strip()
+        mine = self.request.query_params.get('mine')
 
         if (category_id):
             queryset = queryset.filter(category_id=category_id)
+
+        if (mine == '1'):
+            if not self.request.user.is_authenticated:
+                return queryset.none()
+
+            queryset = queryset.filter(author=self.request.user)
 
         if (search):
             queryset = queryset.filter(

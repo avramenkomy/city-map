@@ -50,14 +50,16 @@
     "currentImage": "Current image",
     "newImage": "New image",
     "update": "Save changes",
-    "updating": "Saving changes..."
+    "updating": "Saving changes...",
+    "myPlacesEmpty": "You have not added any places yet."
   },
   "navigation": {
     "label": "Main navigation",
     "home": "Home",
     "addPlace": "Add place",
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "myPlaces": "My places"
   },
   "pages": {
     "addPlace": {
@@ -76,6 +78,10 @@
       "title": "Page no found",
       "subtitle": "This page does not exist yet.",
       "backhome": "Back to home"
+    },
+    "myPlaces": {
+      "title": "My places",
+      "subtitle": "These are the places you have added."
     }
   },
   "auth": {

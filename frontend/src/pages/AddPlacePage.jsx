@@ -6,7 +6,7 @@ import { observer } from 'mobx-react-lite';
 import PageLoader from '../components/PageLoader';
 import PlaceForm from '../components/PlaceForm';
 
-import { authStore } from '../stores/authStores';
+import { authStore } from '../stores/authStore';
 import { placesStore } from '../stores/placesStore';
 import { buildPlaceFormData } from '../utils/placeFormData';
 

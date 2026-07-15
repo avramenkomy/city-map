@@ -3,7 +3,7 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import {
   getCategories,
 
-  getPlaces, getPlace,
+  getPlace, getPlaces, getMyPlaces,
 
   createPlace as CreatePlaceRequest,
   updatePlace as updatePlaceRequest,
@@ -50,6 +50,28 @@ class PlaceStore {
   }
 
 
+  async loadMyPlaces() {
+    this.loading = true;
+    this.error = null;
+
+    try {
+      const data = await getMyPlaces();
+
+      runInAction(() => {
+        this.places = data;
+      });
+    } catch(e) {
+      runInAction(() => {
+        this.error = e.message;
+      });
+    } finally {
+      runInAction(() => {
+        this.loading = false;
+      });
+    }
+  }
+
+
   async updatePlace(id, payload) {
     this.isSave = true;
     this.error = null;
@@ -63,11 +85,11 @@ class PlaceStore {
           place.id === updatedPlace.id ? updatedPlace : place
         ));
 
-        if (this.selectedPlace.id === updatedPlace.id) {
+        if (this.selectedPlace?.id === updatedPlace.id) {
           this.selectedPlace = updatedPlace;
         }
 
-        if (this.focusedPlace.id === updatedPlace) {
+        if (this.focusedPlace?.id === updatedPlace) {
           this.focusedPlace = updatedPlace;
         }
       });
@@ -98,9 +120,9 @@ class PlaceStore {
       runInAction(() => {
         this.places = this.places.filter(place => place.id !== id);
 
-        if (this.selectedPlace.id === id) this.selectedPlace = null;
+        if (this.selectedPlace?.id === id) this.selectedPlace = null;
 
-        if (this.focusedPlace === id) this.focusedPlace = null;
+        if (this.focusedPlace?.id === id) this.focusedPlace = null;
       });
       return true;
 
@@ -196,10 +218,17 @@ class PlaceStore {
   }
 
 
+  async setMineFilter(bool) {
+    this.filters.mine=bool;
+    await this.loadPlaces();
+  }
+
+
   async resetFilters() {
     this.filters = {
       category: '',
       search: '',
+      mine: false,
     }
 
     await this.loadPlaces();
@@ -233,7 +262,7 @@ class PlaceStore {
   }
 
 
-  getHasActiveFilters() {
+  get hasActiveFilters() {
     return Boolean(this.filters.category || this.filters.search);
   }
 }

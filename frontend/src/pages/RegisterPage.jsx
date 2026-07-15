@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
-import { authStore } from '../stores/authStores';
+import { authStore } from '../stores/authStore';
 
 
 function RegisterPage() {

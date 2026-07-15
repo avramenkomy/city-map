@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeSwitcher from './ThemeSwitcher';
-import { authStore } from '../stores/authStores';
+import { authStore } from '../stores/authStore';
 
 function Layout() {
   const { t } = useTranslation();
@@ -25,6 +25,12 @@ function Layout() {
           <NavLink to="/add-place">
             {t('navigation.addPlace')}
           </NavLink>
+
+          {authStore.isAuthenticated &&
+            <NavLink to="/my-places">
+              {t('navigation.myPlaces')}
+            </NavLink>
+          }
 
           {!authStore.isAuthenticated &&
             <>

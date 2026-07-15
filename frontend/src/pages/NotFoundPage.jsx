@@ -11,7 +11,7 @@ function RegisterPage() {
       <p>{t('pages.notFound.subtitle')}</p>
 
       <Link className="text-link" to="/">
-        {t('pages.notFound.backHome')}
+        {t('pages.notFound.backhome')}
       </Link>
     </section>
   )

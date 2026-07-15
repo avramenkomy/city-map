@@ -9,7 +9,7 @@ import PlaceModal from '../components/PlaceModal';
 import PlacesMap from '../components/PlacesMap';
 
 import { placesStore } from '../stores/placesStore';
-import { authStore } from '../stores/authStores';
+import { authStore } from '../stores/authStore';
 
 function HomePage() {
   const { t } = useTranslation();
