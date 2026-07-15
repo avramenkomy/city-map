@@ -52,7 +52,9 @@
     "update": "Save changes",
     "updating": "Saving changes...",
     "myPlacesEmpty": "You have not added any places yet.",
-    "selectedImagePreview": "Selected image preview"
+    "selectedImagePreview": "Selected image preview",
+    "imageTooLarge": "The image is too large. The maximum size is 2 MB.",
+    "imageUnsupportedType": "Unsupported image format. Please use JPEG, PNG, or WEBP."
   },
   "navigation": {
     "label": "Main navigation",

@@ -16,6 +16,7 @@ function PlaceForm(props) {
     onChangeForm,
     onChangeFile,
     onChangeLocation,
+    imageError,
   } = props;
 
   const { t } = useTranslation();
@@ -145,6 +146,10 @@ function PlaceForm(props) {
 
           <img src={imagePreviewUrl} alt={form.title} />
         </div>
+      }
+
+      {imageError &&
+        <p className="form-error">{imageError}</p>
       }
 
       {formErrors?.image &&
