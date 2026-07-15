@@ -54,8 +54,6 @@ function PlaceForm(props) {
     }
   }, [form.image]);
 
-  console.log('placeForm', props);
-
   return (
     <form className="auth-form" onSubmit={onSubmit}>
       <label>
@@ -136,7 +134,7 @@ function PlaceForm(props) {
         <input
           name="image"
           type="file"
-          accept="image/*"
+          accept="image/jpeg,image/png,image/webp"
           onChange={onChangeFile}
         />
       </label>
