@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import LocationPickerMap from './LocationPickerMap';
@@ -18,6 +19,42 @@ function PlaceForm(props) {
   } = props;
 
   const { t } = useTranslation();
+
+  const [imagePreview, setImagePreview] = useState(null);
+
+  const imagePreviewUrl = imagePreview && imagePreview?.file === form.image
+    ? imagePreview.url
+    : null;
+
+  useEffect(() => {
+    if (!form.image) {
+      return undefined;
+    }
+
+    let isCancelled = false;
+    const reader = new FileReader();
+
+    reader.addEventListener('load', () => {
+      if (!isCancelled) {
+        setImagePreview({
+          file: form.image,
+          url: reader.result,
+        });
+      }
+    });
+
+    reader.readAsDataURL(form.image);
+
+    return () => {
+      isCancelled = true;
+
+      if (reader.readyState === FileReader.LOADING) {
+        reader.abort();
+      }
+    }
+  }, [form.image]);
+
+  console.log('placeForm', props);
 
   return (
     <form className="auth-form" onSubmit={onSubmit}>
@@ -84,7 +121,7 @@ function PlaceForm(props) {
         />
       </label>
 
-      {currentImage &&
+      {currentImage && !form.image &&
         <div className="place-edit-image">
           <span>{t('places.currentImage')}</span>
           <img src={currentImage} alt={form.title} />
@@ -103,6 +140,14 @@ function PlaceForm(props) {
           onChange={onChangeFile}
         />
       </label>
+
+      {form.image && imagePreviewUrl &&
+        <div className="place-edit-image">
+          <span>{t('places.selectedImagePreview')}</span>
+
+          <img src={imagePreviewUrl} alt={form.title} />
+        </div>
+      }
 
       {formErrors?.image &&
         <p className="form-error">

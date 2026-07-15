@@ -46,7 +46,6 @@ function EditPlacePage() {
         address: loadedPlace.address || '',
         latitude: loadedPlace.latitude || '',
         longitude: loadedPlace.longitude || '',
-        image: null,
       });
     }
 
@@ -118,7 +117,7 @@ function EditPlacePage() {
         categories={placesStore.categories}
         formErrors={placesStore.formErrors}
         isSave={placesStore.isSave}
-        currentImage={null}
+        currentImage={place?.image}
         submitLabel={t('places.update')}
         savingLabel={t('places.updating')}
         onSubmit={handleSubmit}

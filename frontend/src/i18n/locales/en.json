@@ -51,7 +51,8 @@
     "newImage": "New image",
     "update": "Save changes",
     "updating": "Saving changes...",
-    "myPlacesEmpty": "You have not added any places yet."
+    "myPlacesEmpty": "You have not added any places yet.",
+    "selectedImagePreview": "Selected image preview"
   },
   "navigation": {
     "label": "Main navigation",
