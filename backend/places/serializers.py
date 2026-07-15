@@ -1,10 +1,13 @@
 from pathlib import Path
 
+from PIL import Image, UnidentifiedImageError
 from rest_framework import serializers
 
 from .models import Category, Place
 
 MAX_PLACE_IMAGE_SIZE = 2 * 1024 * 1024
+MAX_PLACE_IMAGE_WIDTH = 4000
+MAX_PLACE_IMAGE_HEIGHT = 4000
 
 ALLOWED_PLACE_IMAGE_CONTENT_TYPES = {
     'image/jpeg', 'image/png', 'image/webp',
@@ -24,7 +27,7 @@ def validate_place_image(value):
             'Image file is too large. Max size is 2MB.'
         )
 
-    content_type = getattr(value, 'content-type', '')
+    content_type = getattr(value, 'content_type', '')
 
     if content_type not in ALLOWED_PLACE_IMAGE_CONTENT_TYPES:
         raise serializers.ValidationError(
@@ -38,7 +41,24 @@ def validate_place_image(value):
             'Unsupported image extension. Please, upload JPEG, PNG or WEBP.'
         )
 
+    try:
+        image = Image.open(value)
+        width, height = image.size
+        image.verify()
+    except (UnidentifiedImageError, OSError):
+        raise serializers.ValidationError(
+            'Invalid Image file.'
+        )
+    finally:
+        value.seek(0)
+
+    if (width > MAX_PLACE_IMAGE_WIDTH or height > MAX_PLACE_IMAGE_HEIGHT):
+        raise serializers.ValidationError(
+            'Image dimansions are too large. Max size is 4000x4000px.'
+        )
+
     return value
+
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
