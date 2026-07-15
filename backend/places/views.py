@@ -16,9 +16,7 @@ from .serializers import (
     PlaceCreateSerializer,
     PlaceUpdateSerializer,
 )
-from .utils import delete_file_if_exists
 
-# Create your views here.
 
 class CategoryListAPIView(ListAPIView):
     queryset = Category.objects.all()
@@ -114,8 +112,3 @@ class PlaceDetailAPIView(RetrieveUpdateDestroyAPIView):
         )
 
         return Response(read_serializer.data)
-
-    def perform_destroy(self, instance):
-        image = instance.image
-        instance.delete()
-        delete_file_if_exists(image)

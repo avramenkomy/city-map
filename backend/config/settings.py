@@ -59,7 +59,7 @@ INSTALLED_APPS = [
 
     #local apps
     'accounts',
-    'places',
+    'places.apps.PlacesConfig',
     'feedback'
 ]
 
