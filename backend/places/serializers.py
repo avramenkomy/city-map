@@ -4,6 +4,7 @@ from PIL import Image, UnidentifiedImageError
 from rest_framework import serializers
 
 from .models import Category, Place
+from .utils import delete_file_if_exists
 
 MAX_PLACE_IMAGE_SIZE = 2 * 1024 * 1024
 MAX_PLACE_IMAGE_WIDTH = 4000
@@ -134,3 +135,14 @@ class PlaceUpdateSerializer(serializers.ModelSerializer):
 
     def validate_image(self, value):
         return validate_place_image(value)
+
+    def update(self, instance, validated_data):
+        old_image = instance.image
+        new_image = validated_data.get('image')
+
+        place = super().update(instance, validated_data)
+
+        if (new_image and old_image and old_image.name != place.image.name):
+            delete_file_if_exists(old_image)
+
+        return place
