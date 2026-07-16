@@ -3,11 +3,22 @@ import { useTranslation } from 'react-i18next';
 
 import LocationPickerMap from './LocationPickerMap';
 
+
+function FieldError({ name, getFieldError }) {
+  const error = getFieldError(name);
+
+  if (!error) return <p className="form-error" />;
+
+  return <p className="form-error">{error}</p>
+}
+
+
 function PlaceForm(props) {
   const {
     form,
     categories,
     formErrors,
+    clientErrors,
     isSave,
     currentImage,
     submitLabel,
@@ -26,6 +37,28 @@ function PlaceForm(props) {
   const imagePreviewUrl = imagePreview && imagePreview?.file === form.image
     ? imagePreview.url
     : null;
+
+
+  function getClientError(fieldName) {
+    return clientErrors?.[fieldName] ? t(clientErrors[fieldName]) : null;
+  }
+
+
+  function getBackendError(fieldName) {
+    const error = formErrors?.[fieldName];
+
+    if (error) return null;
+
+    if (Array.isArray(error)) return error.join(' ');
+
+    return error?.toString();
+  }
+
+
+  function getFieldError(fieldName) {
+    return getClientError(fieldName) || getBackendError(fieldName);
+  }
+
 
   useEffect(() => {
     if (!form.image) {
@@ -74,11 +107,7 @@ function PlaceForm(props) {
         </select>
       </label>
 
-      {formErrors?.caregory_id &&
-        <p className="form-error">
-          {formErrors.category_id.join(' ')}
-        </p>
-      }
+      <FieldError name="category_id" getFieldError={getFieldError} />
 
       <label>
         <span>{t('places.title')}</span>
@@ -91,11 +120,7 @@ function PlaceForm(props) {
         />
       </label>
 
-      {formErrors?.title &&
-        <p className="form-error">
-          {formErrors.title.join(' ')}
-        </p>
-      }
+      <FieldError name="title" getFieldError={getFieldError} />
 
       <label>
         <span>{t('places.description')}</span>
@@ -119,6 +144,8 @@ function PlaceForm(props) {
           onChange={onChangeForm}
         />
       </label>
+
+      <FieldError name="address" getFieldError={getFieldError} />
 
       {currentImage && !form.image &&
         <div className="place-edit-image">
@@ -152,11 +179,7 @@ function PlaceForm(props) {
         <p className="form-error">{imageError}</p>
       }
 
-      {formErrors?.image &&
-        <p className="form-error">
-          {formErrors.image.join(' ')}
-        </p>
-      }
+      <FieldError name="image" getFieldError={getFieldError} />
 
       <div className="location-picker-field">
         <span className="location-picker-field__label">
@@ -184,11 +207,7 @@ function PlaceForm(props) {
         />
       </label>
 
-      {formErrors?.latitude &&
-        <p className="form-error">
-          {formErrors.latitude.join(' ')}
-        </p>
-      }
+      <FieldError name="latitude" getFieldError={getFieldError} />
 
       <label>
         <span>{t('places.longitude')}</span>
@@ -200,11 +219,7 @@ function PlaceForm(props) {
         />
       </label>
 
-      {formErrors?.longitude &&
-        <p className="form-error">
-          {formErrors.longitude.join(' ')}
-        </p>
-      }
+      <FieldError name="longitude" getFieldError={getFieldError} />
 
       <button type="submit" disabled={isSave}>
         {isSave ? savingLabel : submitLabel}

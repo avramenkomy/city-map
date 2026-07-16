@@ -10,6 +10,9 @@ import { authStore } from '../stores/authStore';
 import { placesStore } from '../stores/placesStore';
 import { buildPlaceFormData } from '../utils/placeFormData';
 import { validatePlaceImagFile } from '../utils/validatePlaceImageFile';
+import {
+  hasPlaceFormErrors, validatePlaceForm
+} from '../utils/validatePlaceForm';
 
 
 function EditPlacePage() {
@@ -28,11 +31,14 @@ function EditPlacePage() {
     image: null,
   });
   const [imageErrorKey, setImageErrorKey] = useState(null);
+  const [clientErrors, setClientErrors] = useState({});
 
   useEffect(() => {
     async function loadData() {
       placesStore.clearFormErrors();
+      setClientErrors({});
       setImageErrorKey(null);
+
       await placesStore.loadCategories();
 
       const loadedPlace = await placesStore.loadPlace(id);
@@ -102,7 +108,10 @@ function EditPlacePage() {
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (imageErrorKey) return;
+    const nextClientError = validatePlaceForm(form);
+    setClientErrors(nextClientError);
+
+    if (hasPlaceFormErrors(nextClientError) || imageErrorKey) return;
 
     const formData = buildPlaceFormData(form);
     const success = await placesStore.updatePlace(id, formData);
@@ -136,6 +145,7 @@ function EditPlacePage() {
         form={form}
         categories={placesStore.categories}
         formErrors={placesStore.formErrors}
+        clientErrors={clientErrors}
         imageError={imageErrorKey ? t(imageErrorKey) : null}
         isSave={placesStore.isSave}
         currentImage={place?.image}

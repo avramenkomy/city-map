@@ -10,6 +10,9 @@ import { authStore } from '../stores/authStore';
 import { placesStore } from '../stores/placesStore';
 import { buildPlaceFormData } from '../utils/placeFormData';
 import { validatePlaceImagFile } from '../utils/validatePlaceImageFile';
+import {
+  hasPlaceFormErrors, validatePlaceForm
+} from '../utils/validatePlaceForm';
 
 
 function AddPlacePage() {
@@ -26,6 +29,7 @@ function AddPlacePage() {
     image: null,
   });
   const [imageErrorKey, setImageErrorKey] = useState(null);
+  const [clientErrors, setClientErrors] = useState({});
 
   useEffect(() => {
     placesStore.clearFormErrors();
@@ -39,6 +43,11 @@ function AddPlacePage() {
     setForm(prevState => ({
       ...prevState,
       [name]: value,
+    }));
+
+    setClientErrors(prevState => ({
+      ...prevState,
+      [name]: null,
     }));
   }
 
@@ -74,13 +83,22 @@ function AddPlacePage() {
       latitude: location.latitude,
       longitude: location.longitude,
     }));
+
+    setClientErrors(prevState => ({
+      ...prevState,
+      latitude: null,
+      longitude: null,
+    }));
   }
 
 
   async function handleSubmit(event) {
     event.preventDefault();
 
-    if (imageErrorKey) return;
+    const nextClientError = validatePlaceForm(form);
+    setClientErrors(nextClientError);
+
+    if (hasPlaceFormErrors(nextClientError) || imageErrorKey) return;
 
     const formData = buildPlaceFormData(form);
     const success = await placesStore.createPlace(formData);
@@ -105,6 +123,7 @@ function AddPlacePage() {
         form={form}
         categories={placesStore.categories}
         formErrors={placesStore.formErrors}
+        clientErrors={clientErrors}
         imageError={imageErrorKey ? t(imageErrorKey) : null}
         isSave={placesStore.isSave}
         currentImage={null}

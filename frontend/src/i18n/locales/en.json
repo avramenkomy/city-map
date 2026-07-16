@@ -54,7 +54,15 @@
     "myPlacesEmpty": "You have not added any places yet.",
     "selectedImagePreview": "Selected image preview",
     "imageTooLarge": "The image is too large. The maximum size is 2 MB.",
-    "imageUnsupportedType": "Unsupported image format. Please use JPEG, PNG, or WEBP."
+    "imageUnsupportedType": "Unsupported image format. Please use JPEG, PNG, or WEBP.",
+    "validation": {
+      "categoryRequired": "Select a category.",
+      "titleRequired": "Enter a place title.",
+      "latitudeRequired": "Enter latitude.",
+      "longitudeRequired": "Enter longitude.",
+      "latitudeInvalid": "Latitude must be a number from -90 to 90.",
+      "longitudeInvalid": "Longitude must be a number from -180 to 180."
+    }
   },
   "navigation": {
     "label": "Main navigation",
