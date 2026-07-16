@@ -9,6 +9,8 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 
+from .permissions import IsAuthorOrReadOnly
+
 from .models import Category, Place
 from .serializers import (
     CategorySerializer,
@@ -79,7 +81,7 @@ class PlaceListCreateAPIView(ListCreateAPIView):
 
 
 class PlaceDetailAPIView(RetrieveUpdateDestroyAPIView):
-    permission_classes = [IsAuthenticatedOrReadOnly]
+    permission_classes = [IsAuthorOrReadOnly]
     parser_classes = [JSONParser, FormParser, MultiPartParser]
 
     def get_queryset(self):
