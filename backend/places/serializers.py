@@ -1,9 +1,15 @@
+from decimal import Decimal
 from pathlib import Path
 
 from PIL import Image, UnidentifiedImageError
 from rest_framework import serializers
 
 from .models import Category, Place
+
+MIN_LATITUDE = Decimal('-90')
+MAX_LATITUDE = Decimal('90')
+MIN_LONGITUDE = Decimal('-180')
+MAX_LONGITUDE = Decimal('180')
 
 MAX_PLACE_IMAGE_SIZE = 2 * 1024 * 1024
 MAX_PLACE_IMAGE_WIDTH = 4000
@@ -60,6 +66,42 @@ def validate_place_image(value):
     return value
 
 
+def validate_required_text(value, message):
+    if not value or not value.strip():
+        raise serializers.ValidationError(message)
+    return value
+
+
+def validate_decimal_range(value, min_value, max_value, message):
+    if value < min_value or value > max_value:
+        raise serializers.ValidationError(message)
+    return value
+
+
+class PlaceFieldsValidationMixin:
+    def validate_title(self, value):
+        return validate_required_text(value, 'Title is required.')
+
+    def validate_latitude(self, value):
+        return validate_decimal_range(
+            value,
+            MIN_LATITUDE,
+            MAX_LATITUDE,
+            'Latitude must be between -90 and 90.',
+        )
+
+    def validate_longitude(self, value):
+        return validate_decimal_range(
+            value,
+            MIN_LONGITUDE,
+            MAX_LONGITUDE,
+            'Longitude must be between -180 and 180.',
+        )
+
+    def validate_image(self, value):
+        return validate_place_image(value)
+
+
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
@@ -89,7 +131,7 @@ class PlaceSerializer(serializers.ModelSerializer):
         )
 
 
-class PlaceCreateSerializer(serializers.ModelSerializer):
+class PlaceCreateSerializer(PlaceFieldsValidationMixin, serializers.ModelSerializer):
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source='category',
@@ -108,11 +150,8 @@ class PlaceCreateSerializer(serializers.ModelSerializer):
             'image',
         )
 
-    def validate_image(self, value):
-        return validate_place_image(value)
 
-
-class PlaceUpdateSerializer(serializers.ModelSerializer):
+class PlaceUpdateSerializer(PlaceFieldsValidationMixin, serializers.ModelSerializer):
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source='category',
@@ -131,6 +170,3 @@ class PlaceUpdateSerializer(serializers.ModelSerializer):
             'longitude',
             'image',
         )
-
-    def validate_image(self, value):
-        return validate_place_image(value)
