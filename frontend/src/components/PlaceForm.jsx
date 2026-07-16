@@ -7,7 +7,7 @@ import LocationPickerMap from './LocationPickerMap';
 function FieldError({ name, getFieldError }) {
   const error = getFieldError(name);
 
-  if (!error) return <p className="form-error" />;
+  if (!error) return null;
 
   return <p className="form-error">{error}</p>
 }
