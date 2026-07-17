@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { sendFeeback } from '../api/feedback';
+import { sendFeedback } from '../api/feedback';
+
+import {
+  hasFeedbackFormErrors, validateFeedbackForm
+} from '../utils/validateFeedbackForm';
 
 
 function FeedbackPage() {
@@ -13,6 +17,7 @@ function FeedbackPage() {
     message: '',
   });
 
+  const [clientErrors, setClientErrors] = useState({});
   const [formErrors, setFormErrors] = useState(null);
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
@@ -26,6 +31,11 @@ function FeedbackPage() {
       [name]: value,
     }));
 
+    setClientErrors(prevState => ({
+      ...prevState,
+      [name]: null,
+    }));
+
     setFormErrors(prevState => ({
       ...(prevState || {}),
       [name]: null,
@@ -35,7 +45,12 @@ function FeedbackPage() {
   }
 
 
-  function getFieldError(fieldName) {
+  function getClientError(fieldName) {
+    return clientErrors?.[fieldName] ? t(clientErrors[fieldName]) : null;
+  }
+
+
+  function getBackendError(fieldName) {
     const error = formErrors?.[fieldName];
 
     if (!error) return null;
@@ -43,26 +58,38 @@ function FeedbackPage() {
     if (Array.isArray(error)) {
       return error.join(' ');
     } else {
-      return error.toString();
+      return error.toStrin();
     }
+  }
+
+
+  function getFieldError(fieldName) {
+    return getClientError(fieldName) || getBackendError(fieldName);
   }
 
 
   async function handleFormSubmit(event) {
     event.preventDefault();
 
+    const nextClientErrors = validateFeedbackForm(form);
+    setClientErrors(nextClientErrors);
+
+    if (hasFeedbackFormErrors(nextClientErrors)) return;
+
     setIsSending(true);
     setFormErrors(null);
     setIsSent(false);
 
     try {
-      await sendFeeback(form);
+      await sendFeedback(form);
 
       setForm({
-        name: form.name,
-        email: form.email,
-        message: form.message,
+        name: '',
+        email: '',
+        message: '',
       });
+
+      setClientErrors({});
 
       setIsSent(true);
     } catch (e) {
@@ -128,7 +155,7 @@ function FeedbackPage() {
         }
 
         <label>
-          <span>{t('feedback.email')}</span>
+          <span>{t('feedback.message')}</span>
 
           <textarea
             name="message"

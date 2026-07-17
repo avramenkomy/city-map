@@ -1,6 +1,6 @@
 import { postJson } from './client';
 
 
-export function sendFeeback(payload) {
+export function sendFeedback(payload) {
   return postJson('/api/feedback/', payload);
 }
