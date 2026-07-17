@@ -70,7 +70,8 @@
     "addPlace": "Add place",
     "login": "Login",
     "register": "Register",
-    "myPlaces": "My places"
+    "myPlaces": "My places",
+    "feedback": "Feedback"
   },
   "pages": {
     "addPlace": {
@@ -104,5 +105,18 @@
     "register": "Register",
     "logout": "Log out",
     "submitting": "Submitting..."
+  },
+  "feedback": {
+    "title": "Feedback",
+    "subtitle": "Write to us if you found a bug, want ask a question or to sugges an idea.",
+    "name": "Your name",
+    "email": "Email",
+    "message": "Message",
+    "send": "Send",
+    "sending": "Sending...",
+    "success": "Your message has been sent.",
+    "errors": {
+      "sendFailed": "Failed to sent message. Please try again."
+    }
   }
 }

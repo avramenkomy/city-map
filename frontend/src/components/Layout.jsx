@@ -32,6 +32,10 @@ function Layout() {
             </NavLink>
           }
 
+          <NavLink to="/feedback">
+            {t('navigation.feedback')}
+          </NavLink>
+
           {!authStore.isAuthenticated &&
             <>
               <NavLink to="/login">

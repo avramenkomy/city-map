@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
 import {
   HomePage, AddPlacePage, LoginPage, NotFoundPage, RegisterPage, EditPlacePage,
-  MyPlacesPage
+  MyPlacesPage, FeedbackPage
 } from './pages';
 
 
@@ -13,6 +13,7 @@ function App() {
       <Route path="add-place" element={<AddPlacePage />} />
       <Route path="my-places" element={<MyPlacesPage />} />
       <Route path="places/:id/edit" element={<EditPlacePage />} />
+      <Route path="feedback" element={<FeedbackPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
       <Route path="*" element={<NotFoundPage />} />

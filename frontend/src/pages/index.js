@@ -5,3 +5,4 @@ export { default as EditPlacePage } from './EditPlacePage';
 export { default as LoginPage } from './LoginPage';
 export { default as RegisterPage } from './RegisterPage';
 export { default as NotFoundPage } from './NotFoundPage';
+export { default as FeedbackPage } from './FeedbackPage';
