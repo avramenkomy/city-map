@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/health/', health_check),
     path('api/', include('places.urls')),
     path('api/', include('accounts.urls')),
+    path('api/', include('feedback.urls')),
 ]
 
 if settings.DEBUG:
