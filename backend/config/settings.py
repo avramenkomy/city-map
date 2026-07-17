@@ -156,3 +156,21 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.AllowAny',
     ],
 }
+
+EMAIL_BACKEND = os.getenv(
+  'DJANGO_EMAIL_BACKEND',
+  'django.core.mail.backends.console.EmailBackend'
+)
+
+EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', '')
+EMAIL_PORT = int(os.getenv('DJANGO_EMAIL_PORT', '587'))
+EMAIL_USE_TLS = os.getenv('DJANGO_EMAIL_USETLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', '')
+
+DEFAUL_FROM_EMAIL = os.getenv(
+  'DJANGO_DEFAULT_FROM_EMAIL',
+  'City Map <noreply@example.com>'
+)
+
+FEEDBACK_RECIPIENT_EMAIL = os.getenv('DJANGO_FEEDBACK_RECIPIENT_EMAIL', '')
