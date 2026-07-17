@@ -33,7 +33,7 @@ class PlaceImageUploadAPITests(TestCase):
             password='test-password-123',
         )
 
-        self.category = Category.object.create(
+        self.category = Category.objects.create(
             name='Parks',
             slug='parks',
         )
@@ -66,7 +66,7 @@ class PlaceImageUploadAPITests(TestCase):
 
 
     def test_authenticated_user_can_create_place_with_image(self):
-        self.client.force_authenticated(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
         image = self.create_test_image_file()
         payload = self.get_valid_payload(image=image)
@@ -84,7 +84,7 @@ class PlaceImageUploadAPITests(TestCase):
 
 
     def test_api_rejects_fake_image_file(self):
-        self.client.force_authenticated(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
         fake_image = SimpleUploadedFile(
             'fake.jpg', b'This is not a real image.', content_type='image/jpeg',
@@ -99,7 +99,7 @@ class PlaceImageUploadAPITests(TestCase):
         self.assertEqual(Place.objects.count(), 0)
 
     def test_replacing_image_deletes_old_file(self):
-        self.client.force_authenticated(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
         old_image = self.create_test_image_file(name='old.jpg')
         place = Place.objects.create(
@@ -133,7 +133,7 @@ class PlaceImageUploadAPITests(TestCase):
 
 
     def test_deleting_place_deletes_image_file(self):
-        self.client.force_authenticated(user=self.user)
+        self.client.force_authenticate(user=self.user)
 
         image = self.create_test_image_file(name='delete-me.jpg')
         place = Place.objects.create(
