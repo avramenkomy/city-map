@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
@@ -9,6 +9,12 @@ import { authStore } from '../stores/authStore';
 function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const fromLocation = location.state?.from;
+  const fromPath = fromLocation
+    ? `${fromLocation.pathname}${fromLocation.search || ''}`
+    : '/';
 
   const [form, setForm] = useState({
     username: '',
@@ -33,7 +39,7 @@ function RegisterPage() {
 
     const success = await authStore.register(form);
 
-    if (success) navigate('/');
+    if (success) navigate(fromPath, { replace: true });
   }
 
   return (
