@@ -111,6 +111,9 @@ function FeedbackPage() {
     }
   }
 
+  const nameError = getFieldError('name');
+  const emailError = getFieldError('email');
+  const messageError = getFieldError('message');
 
   return (
     <section className="auth-page">
@@ -123,7 +126,11 @@ function FeedbackPage() {
         </p>
       }
 
-      <FieldError name="non_field_errors" getFieldError={getFieldError} />
+      <FieldError
+        id="feedback-form-error"
+        name="non_field_errors"
+        getFieldError={getFieldError}
+      />
 
       <form className="auth-form" onSubmit={handleFormSubmit}>
         <label>
@@ -134,10 +141,16 @@ function FeedbackPage() {
             name="name"
             value={form.name}
             onChange={handleFormOnChange}
+            aria-invalid={Boolean(nameError)}
+            aria-describedby={nameError ? 'feedback-name-error' : undefined}
           />
         </label>
 
-        <FieldError name="name" getFieldError={getFieldError} />
+        <FieldError
+          id="feedback-name-error"
+          name="name"
+          getFieldError={getFieldError}
+        />
 
         <label>
           <span>{t('feedback.email')}</span>
@@ -147,10 +160,16 @@ function FeedbackPage() {
             name="email"
             value={form.email}
             onChange={handleFormOnChange}
+            aria-invalid={Boolean(emailError)}
+            aria-describedby={emailError ? 'feedback-email-error' : undefined}
           />
         </label>
 
-        <FieldError name="email" getFieldError={getFieldError} />
+        <FieldError
+          id="feedback-email-error"
+          name="email"
+          getFieldError={getFieldError}
+        />
 
         <label>
           <span>{t('feedback.message')}</span>
@@ -160,10 +179,16 @@ function FeedbackPage() {
             rows={6}
             value={form.message}
             onChange={handleFormOnChange}
+            aria-invalid={Boolean(messageError)}
+            aria-describedby={messageError ? 'feedback-message-error' : undefined}
           />
         </label>
 
-        <FieldError name="message" getFieldError={getFieldError} />
+        <FieldError
+          id="feedback-message-error"
+          name="message"
+          getFieldError={getFieldError}
+        />
 
         <button
           type="submit"
