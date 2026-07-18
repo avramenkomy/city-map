@@ -35,6 +35,10 @@ function AddPlacePage() {
     placesStore.loadCategories();
   }, []);
 
+  // useEffect(() => {
+  //   console.log('form', form);
+  // }, [form]);
+
 
   function handleChange(event) {
     const { name, value } = event.target;

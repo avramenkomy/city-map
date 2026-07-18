@@ -1,7 +1,46 @@
 import { useEffect, useRef } from 'react';
 import maplibregl from 'maplibre-gl';
 
-import { DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM, getOsmRasterStyle } from '../config/map';
+import {
+  DEFAULT_MAP_CENTER, DEFAULT_MAP_ZOOM, getOsmRasterStyle,
+} from '../config/map';
+
+
+function parseCoordinate(value) {
+  if ((String(value) || '').trim() === '') {
+    return null;
+  }
+
+  const number = Number(value);
+
+  return Number.isFinite(number) ? number : null;
+}
+
+
+function isValidLatitude(value) {
+  return value !== null && value >= -90 && value <= 90;
+}
+
+
+function isValidLongitude(value) {
+  return value !== null && value >= -180 && value <= 180;
+}
+
+
+function getValidLocation(latitude, longitude) {
+  const parsedLatitude = parseCoordinate(latitude);
+  const parsedLongitude = parseCoordinate(longitude);
+
+  if (!isValidLatitude(parsedLatitude) || !isValidLongitude(parsedLongitude)) {
+    return null;
+  }
+
+  return {
+    latitude: parsedLatitude,
+    longitude: parsedLongitude,
+  }
+}
+
 
 function LocationPickerMap({ latitude, longitude, onChange }) {
   const mapContainerRef = useRef(null);
@@ -15,8 +54,11 @@ function LocationPickerMap({ latitude, longitude, onChange }) {
 
   useEffect(() => {
     if (!mapContainerRef.current || mapRef.current) {
-      return;
+      return undefined;
     }
+
+    const validLocation = getValidLocation(latitude, longitude);
+    const initLocation = validLocation || DEFAULT_MAP_CENTER;
 
     const map = new maplibregl.Map({
       container: mapContainerRef.current,
@@ -25,63 +67,52 @@ function LocationPickerMap({ latitude, longitude, onChange }) {
       zoom: DEFAULT_MAP_ZOOM,
     });
 
-    map.addControl(new maplibregl.NavigationControl(), 'top-right');
+    mapRef.current = map;
+
+    const marker = new maplibregl.Marker({ draggable: false })
+      .setLngLat(initLocation)
+      .addTo(map);
+
+    markerRef.current = marker;
+
+    // map.addControl(new maplibregl.NavigationControl(), 'top-right');
+
+    map.on('click', (event) => {
+      const nextLocation = {
+        longitude:  event.lngLat.lng.toFixed(6),
+        latitude: event.lngLat.lat.toFixed(6),
+      }
+
+      marker.setLngLat([
+        Number(nextLocation.longitude),
+        Number(nextLocation.latitude)
+      ]);
+
+      onChangeRef.current(nextLocation);
+    });
 
     map.on('load', () => {
       map.resize();
     });
 
-    map.on('click', (event) => {
-      const nextLongitude = event.lngLat.lng.toFixed(6);
-      const nextLatitude = event.lngLat.lat.toFixed(6);
-
-      onChangeRef.current({
-        latitude: nextLatitude,
-        longitude: nextLongitude,
-      });
-    });
-
-    mapRef.current = map;
-
     return () => {
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
-      }
-
       map.remove();
       mapRef.current = null;
+      markerRef.current = null;
     };
   }, []);
 
   useEffect(() => {
-    const map = mapRef.current;
+    if (!markerRef.current) return;
 
-    if (!map) {
-      return;
-    }
+    const validLocation = getValidLocation(latitude, longitude);
 
-    const numericLatitude = Number(latitude);
-    const numericLongitude = Number(longitude);
+    if (!validLocation) return;
 
-    if (Number.isNaN(numericLatitude) || Number.isNaN(numericLongitude)) {
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
-      }
-
-      return;
-    }
-
-    const coordinates = [numericLongitude, numericLatitude];
-
-    if (!markerRef.current) {
-      markerRef.current = new maplibregl.Marker()
-        .setLngLat(coordinates)
-        .addTo(map);
-    } else {
-      markerRef.current.setLngLat(coordinates);
-    }
+    markerRef.current.setLngLat([
+      validLocation.longitude,
+      validLocation.latitude,
+    ]);
   }, [longitude, latitude]);
 
   return (
