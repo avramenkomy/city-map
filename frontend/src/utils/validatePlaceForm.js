@@ -1,27 +1,13 @@
+import { isBlank, isValidLatitude, isValidLongitude } from './coordinates';
+
 const CATEGORY_REQ = 'places.validation.categoryRequired';
 const TITLE_REQ = 'places.validation.titleRequired';
 
 const LATITUDE_REQ = 'places.validation.latitudeRequired';
 const LATITUDE_INVALID = 'places.validation.latitudeInvalid';
-const MIN_LATITUDE_VAL = -90;
-const MAX_LATITUDE_VAL = 90;
 
 const LONGITUDE_REQ = 'places.validation.longitudeRequired';
 const LONGITUDE_INVALID = 'places.validation.longitudeInvalid';
-const MIN_LONGITUDE_VAL = -180;
-const MAX_LONGITUDE_VAL = 180;
-
-function isBlank(value) {
-  return String(value || '').trim() === '';
-}
-
-function isNumberInRange(value, min, max) {
-  if (isBlank(value)) return false;
-
-  const numberValue = Number(value);
-
-  return !isNaN(numberValue) && numberValue >= min && numberValue <= max;
-}
 
 
 export function validatePlaceForm(form) {
@@ -37,13 +23,13 @@ export function validatePlaceForm(form) {
 
   if (isBlank(form.latitude)) {
     errors.latitude = LATITUDE_REQ;
-  } else if (!isNumberInRange(form.latitude, MIN_LATITUDE_VAL, MAX_LATITUDE_VAL)) {
+  } else if (!isValidLatitude(form.latitude)) {
     errors.latitude = LATITUDE_INVALID;
   }
 
   if (isBlank(form.longitude)) {
     errors.longitude = LONGITUDE_REQ;
-  } else if (!isNumberInRange(form.longitude, MIN_LONGITUDE_VAL, MAX_LONGITUDE_VAL)) {
+  } else if (!isValidLongitude(form.longitude)) {
     errors.longitude = LONGITUDE_INVALID;
   }
 
