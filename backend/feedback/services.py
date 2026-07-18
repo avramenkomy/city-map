@@ -13,7 +13,7 @@ def send_feedback_notification(feedback_message):
         logger.warning('Feedback recipient email is not configured.')
         return False
 
-    subject = f'New feedback message from {feedback_message.message}'
+    subject = f'New feedback message from {feedback_message.name}'
 
     message = (
         'New feedback message received.\n\n'
