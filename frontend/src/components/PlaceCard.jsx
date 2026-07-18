@@ -62,7 +62,7 @@ function PlaceCard(props) {
             <button
               type="button"
               className="place-card__button place-card__button--danger"
-              onClick={() => onDelete(place)}
+              onClick={() => onDelete(place.id)}
             >
               {t('places.delete')}
             </button>

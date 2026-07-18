@@ -91,7 +91,7 @@ export async function patchFormData(url, formData) {
 export async function deleteJson(url) {
   await ensureCsrfCookie();
 
-  const csrfToken = getCookie();
+  const csrfToken = getCookie('csrftoken');
 
   return requestJson(url, {
     method: 'DELETE',
