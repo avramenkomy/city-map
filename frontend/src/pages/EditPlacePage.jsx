@@ -121,14 +121,6 @@ function EditPlacePage() {
     }
   }
 
-  if (!authStore.isAuthChecked) {
-    return <PageLoader />
-  }
-
-  if (!authStore.isAuthenticated) {
-    return <Navigate to="/" replace />
-  }
-
   if (placesStore.loading && !place) {
     return <PageLoader />
   }

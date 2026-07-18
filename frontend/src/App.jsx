@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout';
+import ProtectedRoute from './components/ProtectedRoute';
+
 import {
   HomePage, AddPlacePage, LoginPage, NotFoundPage, RegisterPage, EditPlacePage,
   MyPlacesPage, FeedbackPage
@@ -10,12 +12,16 @@ function App() {
   return <Routes>
     <Route element={<Layout />}>
       <Route index element={<HomePage />} />
-      <Route path="add-place" element={<AddPlacePage />} />
-      <Route path="my-places" element={<MyPlacesPage />} />
-      <Route path="places/:id/edit" element={<EditPlacePage />} />
       <Route path="feedback" element={<FeedbackPage />} />
       <Route path="login" element={<LoginPage />} />
       <Route path="register" element={<RegisterPage />} />
+
+      <Route element={<ProtectedRoute />}>
+        <Route path="add-place" element={<AddPlacePage />} />
+        <Route path="my-places" element={<MyPlacesPage />} />
+        <Route path="places/:id/edit" element={<EditPlacePage />} />
+      </Route>
+
       <Route path="*" element={<NotFoundPage />} />
     </Route>
   </Routes>

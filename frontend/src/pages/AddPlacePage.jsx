@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
-import PageLoader from '../components/PageLoader';
 import PlaceForm from '../components/PlaceForm';
 
-import { authStore } from '../stores/authStore';
 import { placesStore } from '../stores/placesStore';
 import { buildPlaceFormData } from '../utils/placeFormData';
 import { validatePlaceImagFile } from '../utils/validatePlaceImageFile';
@@ -104,14 +103,6 @@ function AddPlacePage() {
     const success = await placesStore.createPlace(formData);
 
     if (success) navigate('/');
-  }
-
-  if (!authStore.isAuthChecked) {
-    return <PageLoader />
-  }
-
-  if (!authStore.isAuthenticated) {
-    return <Navigate to="/login" replace />
   }
 
   return (

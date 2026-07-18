@@ -1,30 +1,18 @@
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
 import PageLoader from '../components/PageLoader';
 
 import { placesStore } from '../stores/placesStore';
-import { authStore } from '../stores/authStore';
 import PlacesList from '../components/PlacesList';
 
 function MyPlacesPage() {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (authStore.isAuthChecked && authStore.isAuthenticated) {
-      placesStore.loadMyPlaces();
-    }
-  }, [authStore.isAuthChecked, authStore.isAuthenticated]);
-
-  if (!authStore.isAuthChecked) {
-    return <PageLoader />
-  }
-
-  if (!authStore.isAuthenticated) {
-    return <Navigate to="/login" replace />
-  }
+    placesStore.loadMyPlaces();
+  }, []);
 
   if (placesStore.loading) {
     return <PageLoader />
