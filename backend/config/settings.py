@@ -155,6 +155,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
     ],
+    'DEFAULT_THROTTLE_RATES': {
+      'feedback': os.getenv('DJANGO_FEEDBACK_THROTTLE_RATE', '5/hour')
+    }
 }
 
 EMAIL_BACKEND = os.getenv(
