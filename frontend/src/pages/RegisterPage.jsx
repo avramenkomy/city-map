@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
@@ -124,6 +124,12 @@ function RegisterPage() {
           {authStore.loading ? t('auth.submitting') : t('auth.register')}
         </button>
       </form>
+      <p className="auth-form__hint">
+        {t('auth.hasAccount')}{' '}
+        <Link to="/login" state={location.state}>
+          {t('auth.login')}
+        </Link>
+      </p>
     </section>
   )
 }

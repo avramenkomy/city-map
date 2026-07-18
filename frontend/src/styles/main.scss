@@ -266,6 +266,23 @@
   }
 }
 
+.auth-form__hint {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 14px;
+  line-height: 1.5;
+
+  a {
+    color: var(--color-primary);
+    font-weight: 600;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
 .auth-page .form-success,
 .form-success {
   margin: 0;
