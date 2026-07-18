@@ -83,6 +83,9 @@ function LoginPage() {
     if (success) navigate(fromPath, { replace: true });
   }
 
+  const usernameError = getFieldError('username');
+  const passwordError = getFieldError('password');
+
   return (
     <section className="auth-page">
       <h1>{t('pages.login.title')}</h1>
@@ -100,10 +103,18 @@ function LoginPage() {
             autoComplete="username"
             value={form.username}
             onChange={hanldeChange}
+            aria-invalid={Boolean(usernameError)}
+            aria-describedby={
+              usernameError ? 'login-username-error' : undefined
+            }
           />
         </label>
 
-        <FieldError name="username" getFieldError={getFieldError} />
+        <FieldError
+          id="login-username-error"
+          name="username"
+          getFieldError={getFieldError}
+        />
 
         <label htmlFor="">
           <span>{t('auth.password')}</span>
@@ -114,10 +125,18 @@ function LoginPage() {
             autoComplete="current-password"
             value={form.password}
             onChange={hanldeChange}
+            aria-invalid={Boolean(passwordError)}
+            aria-describedby={
+              passwordError ? 'login-password-error' : undefined
+            }
           />
         </label>
 
-        <FieldError name="password" getFieldError={getFieldError} />
+        <FieldError
+          id="login-password-error"
+          name="password"
+          getFieldError={getFieldError}
+        />
 
         <button type="submit" disabled={authStore.loading}>
           { authStore.loading ? t('auth.submitting') : t('auth.login') }

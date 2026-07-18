@@ -83,6 +83,11 @@ function RegisterPage() {
     return getClientError(fieldName) || getBackendError(fieldName);
   }
 
+  const usernameError = getFieldError('username');
+  const emailError = getFieldError('email');
+  const passwordError = getFieldError('password');
+  const passwordConfirmError = getFieldError('password_confirm');
+
   return (
     <section className="auth-page">
       <h1>{t('pages.register.title')}</h1>
@@ -100,10 +105,18 @@ function RegisterPage() {
             autoComplete="username"
             value={form.username}
             onChange={handleChange}
+            aria-invalid={Boolean(usernameError)}
+            aria-describedby={
+              usernameError ? 'register-username-error' : undefined
+            }
           />
         </label>
 
-        <FieldError name="username" getFieldError={getFieldError} />
+        <FieldError
+          id="register-username-error"
+          name="username"
+          getFieldError={getFieldError}
+        />
 
         <label>
           <span>{t('auth.email')}</span>
@@ -114,10 +127,16 @@ function RegisterPage() {
             autoComplete="email"
             value={form.email}
             onChange={handleChange}
+            aria-invalid={Boolean(emailError)}
+            aria-describedby={emailError ? 'register-email-error' : undefined}
           />
         </label>
 
-        <FieldError name="email" getFieldError={getFieldError} />
+        <FieldError
+          id="register-email-error"
+          name="email"
+          getFieldError={getFieldError}
+        />
 
         <label>
           <span>{t('auth.password')}</span>
@@ -128,10 +147,16 @@ function RegisterPage() {
             autoComplete="password"
             value={form.password}
             onChange={handleChange}
+            aria-invalid={Boolean(passwordError)}
+            aria-describedby={passwordError ? 'register-password-error' : undefined}
           />
         </label>
 
-        <FieldError name="password" getFieldError={getFieldError} />
+        <FieldError
+          id="register-password-error "
+          name="password"
+          getFieldError={getFieldError}
+        />
 
         <label>
           <span>{t('auth.passwordConfirm')}</span>
@@ -142,10 +167,18 @@ function RegisterPage() {
             autoComplete="new-password"
             value={form.password_confirm}
             onChange={handleChange}
+            aria-invalid={Boolean(passwordConfirmError)}
+            aria-describedby={
+              passwordConfirmError ? 'register-password-confirm-error' : undefined
+            }
           />
         </label>
 
-        <FieldError name="password_confirm" getFieldError={getFieldError} />
+        <FieldError
+          id="register-password-confirm-error"
+          name="password_confirm"
+          getFieldError={getFieldError}
+        />
 
         <button type="submit" disabled={authStore.loading}>
           {authStore.loading ? t('auth.submitting') : t('auth.register')}
