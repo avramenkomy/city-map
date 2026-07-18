@@ -266,6 +266,21 @@
   }
 }
 
+.auth-form input[aria-invalid='true'],
+.auth-form textarea[aria-invalid='true'],
+.auth-form select[aria-invalid='true'] {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.auth-form input[aria-invalid='true']:focus,
+.auth-form textarea[aria-invalid='true']:focus,
+.auth-form select[aria-invalid='true']:focus {
+  border-color: var(--color-error);
+  outline: 2px solid var(--color-error-bg);
+  outline-offset: 2px;
+}
+
 .auth-form__hint {
   margin: 0;
   color: var(--color-muted);

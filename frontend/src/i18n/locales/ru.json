@@ -57,7 +57,7 @@
     "imageUnsupportedType": "Неподдерживаемый формат изображения. Используйте JPEG, PNG или WEBP.",
     "validation": {
       "categoryRequired": "Выберете категорию",
-      "titleRequired": "Введтите наименование места",
+      "titleRequired": "Введите наименование места",
       "latitudeRequired": "Укажите широту",
       "longitudeRequired": "Укажите долготу",
       "latitudeInvalid": "Широта должна быть числом от -90 до 90",
