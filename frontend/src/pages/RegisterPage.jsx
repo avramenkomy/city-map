@@ -8,6 +8,8 @@ import {
   validateRegisterForm, hasAuthFormErrors
 } from '../utils/validateAuthForms';
 
+import FieldError from '../components/FieldError';
+
 
 function RegisterPage() {
   const { t } = useTranslation();
@@ -86,11 +88,7 @@ function RegisterPage() {
       <h1>{t('pages.register.title')}</h1>
       <p>{t('pages.register.subtitle')}</p>
 
-      {getFieldError('non_field_errors') &&
-        <p className="form-error">
-          {getFieldError('non_field_errors')}
-        </p>
-      }
+      <FieldError name="non_field_errors" getFieldError={getFieldError} />
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <label>
@@ -105,11 +103,7 @@ function RegisterPage() {
           />
         </label>
 
-        {getFieldError('username') &&
-          <p className="form-error">
-            {getFieldError('username')}
-          </p>
-        }
+        <FieldError name="username" getFieldError={getFieldError} />
 
         <label>
           <span>{t('auth.email')}</span>
@@ -123,11 +117,7 @@ function RegisterPage() {
           />
         </label>
 
-        {getFieldError('email') &&
-          <p className="form-error">
-            {getFieldError('email')}
-          </p>
-        }
+        <FieldError name="email" getFieldError={getFieldError} />
 
         <label>
           <span>{t('auth.password')}</span>
@@ -141,11 +131,7 @@ function RegisterPage() {
           />
         </label>
 
-        {getFieldError('password') &&
-          <p className="form-error">
-            {getFieldError('password')}
-          </p>
-        }
+        <FieldError name="password" getFieldError={getFieldError} />
 
         <label>
           <span>{t('auth.passwordConfirm')}</span>
@@ -159,16 +145,13 @@ function RegisterPage() {
           />
         </label>
 
-        {getFieldError('password_confirm') &&
-          <p className="form-error">
-            {getFieldError('password_confirm')}
-          </p>
-        }
+        <FieldError name="password_confirm" getFieldError={getFieldError} />
 
         <button type="submit" disabled={authStore.loading}>
           {authStore.loading ? t('auth.submitting') : t('auth.register')}
         </button>
       </form>
+
       <p className="auth-form__hint">
         {t('auth.hasAccount')}{' '}
         <Link to="/login" state={location.state}>

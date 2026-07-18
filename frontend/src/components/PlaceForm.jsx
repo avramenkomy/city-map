@@ -3,14 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import LocationPickerMap from './LocationPickerMap';
 
-
-function FieldError({ name, getFieldError }) {
-  const error = getFieldError(name);
-
-  if (!error) return null;
-
-  return <p className="form-error">{error}</p>
-}
+import FieldError from './FieldError';
 
 
 function PlaceForm(props) {

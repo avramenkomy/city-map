@@ -9,6 +9,8 @@ import {
   validateLoginForm, hasAuthFormErrors
 } from '../utils/validateAuthForms';
 
+import FieldError from '../components/FieldError';
+
 
 function LoginPage() {
   const { t } = useTranslation();
@@ -86,11 +88,7 @@ function LoginPage() {
       <h1>{t('pages.login.title')}</h1>
       <p>{t('pages.login.subtitle')}</p>
 
-      {getFieldError('non_field_errors') && (
-        <p className="form-error">
-          {getFieldError('non_field_errors')}
-        </p>
-      )}
+      <FieldError name="non_field_errors" getFieldError={getFieldError} />
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <label htmlFor="">
@@ -105,11 +103,7 @@ function LoginPage() {
           />
         </label>
 
-        {getFieldError('username') && (
-          <p className="form-error">
-            {getFieldError('username')}
-          </p>
-        )}
+        <FieldError name="username" getFieldError={getFieldError} />
 
         <label htmlFor="">
           <span>{t('auth.password')}</span>
@@ -123,11 +117,7 @@ function LoginPage() {
           />
         </label>
 
-        {getFieldError('password') && (
-          <p className="form-error">
-            {getFieldError('password')}
-          </p>
-        )}
+        <FieldError name="password" getFieldError={getFieldError} />
 
         <button type="submit" disabled={authStore.loading}>
           { authStore.loading ? t('auth.submitting') : t('auth.login') }

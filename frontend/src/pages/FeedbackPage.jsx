@@ -7,6 +7,8 @@ import {
   hasFeedbackFormErrors, validateFeedbackForm
 } from '../utils/validateFeedbackForm';
 
+import FieldError from '../components/FieldError';
+
 
 function FeedbackPage() {
   const { t } = useTranslation();
@@ -121,11 +123,7 @@ function FeedbackPage() {
         </p>
       }
 
-      {getFieldError('non_field_errors') &&
-        <p className="form-error">
-          {getFieldError('non_field_errors')}
-        </p>
-      }
+      <FieldError name="non_field_errors" getFieldError={getFieldError} />
 
       <form className="auth-form" onSubmit={handleFormSubmit}>
         <label>
@@ -139,11 +137,7 @@ function FeedbackPage() {
           />
         </label>
 
-        {getFieldError('name') &&
-          <p className="form-error">
-            {getFieldError('name')}
-          </p>
-        }
+        <FieldError name="name" getFieldError={getFieldError} />
 
         <label>
           <span>{t('feedback.email')}</span>
@@ -156,11 +150,7 @@ function FeedbackPage() {
           />
         </label>
 
-        {getFieldError('email') &&
-          <p className="form-error">
-            {getFieldError('email')}
-          </p>
-        }
+        <FieldError name="email" getFieldError={getFieldError} />
 
         <label>
           <span>{t('feedback.message')}</span>
@@ -173,11 +163,7 @@ function FeedbackPage() {
           />
         </label>
 
-        {getFieldError('message') &&
-          <p className="form-error">
-            {getFieldError('message')}
-          </p>
-        }
+        <FieldError name="message" getFieldError={getFieldError} />
 
         <button
           type="submit"
