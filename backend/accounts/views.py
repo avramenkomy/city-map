@@ -23,7 +23,7 @@ class CurrentUserAPIView(APIView):
 
     def get(self, request):
         if not request.user.is_authenticated:
-            return Response({'is_authenticate': False})
+            return Response({'is_authenticated': False})
 
         serializer = UserSerializar(request.user)
         return Response(serializer.data)
