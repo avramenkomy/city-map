@@ -58,7 +58,7 @@ function FeedbackPage() {
     if (Array.isArray(error)) {
       return error.join(' ');
     } else {
-      return error.toStrin();
+      return error.toString();
     }
   }
 

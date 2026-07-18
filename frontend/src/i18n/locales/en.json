@@ -106,7 +106,16 @@
     "logout": "Log out",
     "submitting": "Submitting...",
     "noAccount": "No account?",
-    "hasAccount": "Already have an account?"
+    "hasAccount": "Already have an account?",
+    "validation": {
+      "usernameRequired": "Enter your username.",
+      "passwordRequired": "Enter your password.",
+      "passwordTooShort": "Password must be at least 8 characters.",
+      "passwordConfirmRequired": "Confirm your password.",
+      "passwordsDoNotMatch": "Passwords do not match.",
+      "emailRequired": "Enter email.",
+      "emailInvalid": "Enter a valid email."
+    }
   },
   "feedback": {
     "title": "Feedback",

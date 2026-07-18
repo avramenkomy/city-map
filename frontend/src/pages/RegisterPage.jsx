@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { observer } from 'mobx-react-lite';
 
 import { authStore } from '../stores/authStore';
+import {
+  validateRegisterForm, hasAuthFormErrors
+} from '../utils/validateAuthForms';
 
 
 function RegisterPage() {
@@ -22,6 +25,7 @@ function RegisterPage() {
     password: '',
     password_confirm: '',
   });
+  const [clientErrors, setClientErrors] = useState({});
 
 
   function handleChange(event) {
@@ -31,21 +35,62 @@ function RegisterPage() {
       ...prevState,
       [name]: value,
     }));
+
+    setClientErrors(prevState => ({
+      ...prevState,
+      [name]: null,
+    }));
+
+    authStore.cleanFormErrors();
   }
 
 
   async function handleSubmit(event) {
     event.preventDefault();
 
+    const nextClientErrors = validateRegisterForm(form);
+    setClientErrors(nextClientErrors);
+
+    if (hasAuthFormErrors(nextClientErrors)) return;
+
     const success = await authStore.register(form);
 
     if (success) navigate(fromPath, { replace: true });
+  }
+
+
+  function getClientError(fieldName) {
+    return clientErrors?.[fieldName] ? t(clientErrors[fieldName]) : null;
+  }
+
+
+  function getBackendError(fieldName) {
+    const error = authStore.formErrors?.[fieldName];
+
+    if (!error) return null;
+
+    if (Array.isArray(error)) {
+      return error.join(' ');
+    }
+
+    return error.toString();
+  }
+
+
+  function getFieldError(fieldName) {
+    return getClientError(fieldName) || getBackendError(fieldName);
   }
 
   return (
     <section className="auth-page">
       <h1>{t('pages.register.title')}</h1>
       <p>{t('pages.register.subtitle')}</p>
+
+      {getFieldError('non_field_errors') &&
+        <p className="form-error">
+          {getFieldError('non_field_errors')}
+        </p>
+      }
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <label>
@@ -60,11 +105,11 @@ function RegisterPage() {
           />
         </label>
 
-        {authStore.formErrors?.username && (
+        {getFieldError('username') &&
           <p className="form-error">
-            {authStore.formErrors.username.join(' ')}
+            {getFieldError('username')}
           </p>
-        )}
+        }
 
         <label>
           <span>{t('auth.email')}</span>
@@ -78,11 +123,11 @@ function RegisterPage() {
           />
         </label>
 
-        {authStore.formErrors?.email && (
+        {getFieldError('email') &&
           <p className="form-error">
-            {authStore.formErrors.email.join(' ')}
+            {getFieldError('email')}
           </p>
-        )}
+        }
 
         <label>
           <span>{t('auth.password')}</span>
@@ -96,11 +141,11 @@ function RegisterPage() {
           />
         </label>
 
-        {authStore.formErrors?.password && (
+        {getFieldError('password') &&
           <p className="form-error">
-            {authStore.formErrors.password.join(' ')}
+            {getFieldError('password')}
           </p>
-        )}
+        }
 
         <label>
           <span>{t('auth.passwordConfirm')}</span>
@@ -114,11 +159,11 @@ function RegisterPage() {
           />
         </label>
 
-        {authStore.formErrors?.password_confirm && (
+        {getFieldError('password_confirm') &&
           <p className="form-error">
-            {authStore.formErrors.password_confirm.join(' ')}
+            {getFieldError('password_confirm')}
           </p>
-        )}
+        }
 
         <button type="submit" disabled={authStore.loading}>
           {authStore.loading ? t('auth.submitting') : t('auth.register')}

@@ -106,7 +106,16 @@
     "logout": "Выйти",
     "submitting": "Отправляем...",
     "noAccount": "Нет аккаунта?",
-    "hasAccount": "уже есть аккаунт?"
+    "hasAccount": "уже есть аккаунт?",
+    "validation": {
+      "usernameRequired": "Введите имя пользователя.",
+      "passwordRequired": "Введите пароль.",
+      "passwordTooShort": "Пароль должен быть не короче 8 символов.",
+      "passwordConfirmRequired": "Повторите пароль.",
+      "passwordsDoNotMatch": "Пароли не совпадают.",
+      "emailRequired": "Введите email.",
+      "emailInvalid": "Введите корректный email."
+    }
   },
   "feedback": {
     "title": "Обратная связь",

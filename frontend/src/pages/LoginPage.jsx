@@ -5,6 +5,10 @@ import { observer } from 'mobx-react-lite';
 
 import { authStore } from '../stores/authStore';
 
+import {
+  validateLoginForm, hasAuthFormErrors
+} from '../utils/validateAuthForms';
+
 
 function LoginPage() {
   const { t } = useTranslation();
@@ -21,6 +25,8 @@ function LoginPage() {
     password: ''
   });
 
+  const [clientErrors, setClientErrors] = useState({});
+
 
   function hanldeChange(event) {
     const { name, value } = event.target;
@@ -29,11 +35,46 @@ function LoginPage() {
       ...prevState,
       [name]: value
     }));
+
+    setClientErrors(prevState => ({
+      ...prevState,
+      [name]: null,
+    }));
+
+    authStore.cleanFormErrors();
+  }
+
+
+  function getClientError(fieldName) {
+    return clientErrors?.[fieldName] ? t(clientErrors[fieldName]) : null;
+  }
+
+
+  function getBackendError(fieldName) {
+    const error = authStore.formErrors?.[fieldName];
+
+    if (!error) return null;
+
+    if (Array.isArray(error)) {
+      return error.join(' ');
+    } else {
+      return error.toString();
+    }
+  }
+
+
+  function getFieldError(fieldName) {
+    return getClientError(fieldName) || getBackendError(fieldName);
   }
 
 
   async function handleSubmit(event) {
     event.preventDefault();
+
+    const nextClientErrors = validateLoginForm(form);
+    setClientErrors(nextClientErrors);
+
+    if (hasAuthFormErrors(nextClientErrors)) return;
 
     const success = await authStore.login(form);
 
@@ -44,6 +85,12 @@ function LoginPage() {
     <section className="auth-page">
       <h1>{t('pages.login.title')}</h1>
       <p>{t('pages.login.subtitle')}</p>
+
+      {getFieldError('non_field_errors') && (
+        <p className="form-error">
+          {getFieldError('non_field_errors')}
+        </p>
+      )}
 
       <form className="auth-form" onSubmit={handleSubmit}>
         <label htmlFor="">
@@ -58,6 +105,12 @@ function LoginPage() {
           />
         </label>
 
+        {getFieldError('username') && (
+          <p className="form-error">
+            {getFieldError('username')}
+          </p>
+        )}
+
         <label htmlFor="">
           <span>{t('auth.password')}</span>
 
@@ -70,11 +123,11 @@ function LoginPage() {
           />
         </label>
 
-        {authStore.formErrors?.non_fields_errors &&
+        {getFieldError('password') && (
           <p className="form-error">
-            { authStore.formErrors.non_fields_errors.join(' ') }
+            {getFieldError('password')}
           </p>
-        }
+        )}
 
         <button type="submit" disabled={authStore.loading}>
           { authStore.loading ? t('auth.submitting') : t('auth.login') }
