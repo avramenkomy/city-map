@@ -93,6 +93,14 @@ function FeedbackPage() {
 
       setIsSent(true);
     } catch (e) {
+      if (e.status === 429) {
+        setFormErrors({
+          non_field_errors: [t('feedback.errors.tooManyRequests')],
+        });
+
+        return;
+      }
+
       setFormErrors(e.data || {
         'non_field_errors': [t('feedback.errors.sendFailed')],
       });
@@ -113,7 +121,7 @@ function FeedbackPage() {
         </p>
       }
 
-      {getFieldError('non_field_error') &&
+      {getFieldError('non_field_errors') &&
         <p className="form-error">
           {getFieldError('non_field_errors')}
         </p>

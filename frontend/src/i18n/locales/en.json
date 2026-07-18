@@ -116,7 +116,8 @@
     "sending": "Sending...",
     "success": "Your message has been sent.",
     "errors": {
-      "sendFailed": "Failed to sent message. Please try again."
+      "sendFailed": "Failed to sent message. Please try again.",
+      "tooManyRequests": "Too many messages. Please try again later."
     },
     "validation": {
       "nameRequired": "Name is required",
