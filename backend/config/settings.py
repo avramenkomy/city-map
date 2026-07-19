@@ -19,6 +19,9 @@ from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+FRONTEND_DIST_DIR = BASE_DIR.parent / 'frontend' / 'dist'
+FRONTEND_INDEX_FILE = FRONTEND_DIST_DIR / 'index.html'
+
 load_dotenv(BASE_DIR / '.env')
 
 def env_bool(name, default=False):
