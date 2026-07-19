@@ -14,10 +14,37 @@ from pathlib import Path
 import os
 
 from dotenv import load_dotenv
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
 load_dotenv(BASE_DIR / '.env')
+
+def env_bool(name, default=False):
+    value = os.getenv(name)
+
+    if value is None:
+        return default
+
+    return value.lower() in ("1", "true", "yes", "on")
+
+
+def env_list(name, default=""):
+    return [
+        item.strip()
+        for item in os.getenv(name, default).split(",")
+        if item.strip()
+    ]
+
+
+def require_env(name):
+    value = os.getenv(name)
+
+    if not value:
+        raise ImproperlyConfigured(f"{name} is required in production.")
+
+    return value
 
 
 # Quick-start development settings - unsuitable for production
@@ -26,22 +53,22 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 # взять значение DJANGO_SECRET_KEY из окружения,
 # а если его нет — использовать "unsafe-dev-key"
-SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-dev-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DJANGO_DEBUG', 'False') == 'True'
+DEBUG = env_bool('DJANGO_DEBUG', default=False)
 
-ALLOWED_HOSTS = [
-    host.strip()
-    for host in os.getenv('DJANGO_ALLOWED_HOSTS', '').split(',')
-    if host.strip()
-]
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'unsafe-dev-key')
 
-CSRF_TRUSTED_ORIGINS = [
-    host.strip()
-    for host in os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS', '').split(',')
-    if host.strip()
-]
+ALLOWED_HOSTS = env_list('DJANGO_ALLOWED_HOSTS')
+CSRF_TRUSTED_ORIGINS = env_list('DJANGO_CSRF_TRUSTED_ORIGINS')
+
+if not DEBUG:
+    SECRET_KEY = require_env('DJANGO_SECRET_KEY')
+
+    if not ALLOWED_HOSTS:
+        raise ImproperlyConfigured(
+            'DJANGO_ALLOWED_HOSTS is required when DJANGO_DEBUG=False.'
+        )
 
 
 # Application definition
@@ -167,7 +194,7 @@ EMAIL_BACKEND = os.getenv(
 
 EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', '')
 EMAIL_PORT = int(os.getenv('DJANGO_EMAIL_PORT', '587'))
-EMAIL_USE_TLS = os.getenv('DJANGO_EMAIL_USETLS', 'True') == 'True'
+EMAIL_USE_TLS = env_bool('DJANGO_EMAIL_USE_TLS', default=True)
 EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', '')
 
@@ -177,3 +204,30 @@ DEFAUL_FROM_EMAIL = os.getenv(
 )
 
 FEEDBACK_RECIPIENT_EMAIL = os.getenv('DJANGO_FEEDBACK_RECIPIENT_EMAIL', '')
+
+SESSION_COOKIE_SECURE = env_bool(
+    'DJANGO_SESSION_COOKIE_SECURE',
+    default=not DEBUG,
+)
+
+CSRF_COOKIE_SECURE = env_bool(
+    'DJANGO_CSRF_COOKIE_SECURE',
+    default=not DEBUG,
+)
+
+SECURE_SSL_REDIRECT = env_bool(
+    'DJANGO_SECURE_SSL_REDIRECT',
+    default=False,
+)
+
+SECURE_HSTS_SECONDS = int(os.getenv('DJANGO_SECURE_HSTS_SECONDS', '0'))
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = env_bool(
+    'DJANGO_SECURE_HSTS_INCLUDE_SUBDOMAINS',
+    default=False,
+)
+
+SECURE_HSTS_PRELOAD = env_bool(
+    'DJANGO_SECURE_HSTS_PRELOAD',
+    default=False,
+)
