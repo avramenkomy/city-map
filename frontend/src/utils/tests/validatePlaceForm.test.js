@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 import {
   hasPlaceFormErrors,
   validatePlaceForm,
-} from './validatePlaceForm';
+} from '../validatePlaceForm';
 
 describe('validatePlaceForm', () => {
   const validForm = {

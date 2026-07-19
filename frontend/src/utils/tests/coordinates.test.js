@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 
 import {
   getValidLocation, isBlank, isValidLatitude, isValidLongitude, parseCoordinate
-} from './coordinates';
+} from '../coordinates';
 
 describe('coordinates utils', () => {
   describe('idBlank', () => {
