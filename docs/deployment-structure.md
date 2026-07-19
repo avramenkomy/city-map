@@ -144,3 +144,19 @@ login/logout работает
 загрузка изображения работает
 feedback работает
 ```
+
+## Frontend assets
+
+Vite production build хранит JS/CSS в:
+
+```text
+frontend/dist/assets/
+```
+
+В production эти файлы должны быть доступны как:
+
+```text
+/assets/...
+```
+
+SPA fallback не должен перехватывать `/assets/...`.
