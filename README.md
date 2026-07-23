@@ -14,3 +14,4 @@
 - [Passenger WSGI](docs/passenger-wsgi.md)
 - [REG.RU server env](docs/reg-ru-env.md)
 - [Список файлов для загрузки на сервер](docs/server-upload-checklist.md)
+- [Команды первого запуска на сервере](docs/server-first-run-commands.md)
