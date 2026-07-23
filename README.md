@@ -9,3 +9,4 @@
 - [Database settings](docs/database-settings.md)
 - [Backend requirements](docs/backend-requirements.md)
 - [Frontend dependencies](docs/frontend-dependencies.md)
+- [Финальный pre-deploy прогон](docs/final-pre-deploy-run.md)
