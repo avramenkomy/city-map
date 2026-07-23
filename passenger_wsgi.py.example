@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""Passenger WSGI entry point example for REG.RU / ispmanager.
+
+How to use on the server:
+
+1. Copy this file to passenger_wsgi.py in the site root.
+2. Replace PROJECT_ROOT with the real absolute path to your site directory.
+3. Make sure backend/.env exists on the server.
+4. Restart the application with: touch .restart-app
+"""
+
+import os
+import sys
+
+
+PROJECT_ROOT = "/var/www/uXXXXXX/data/www/example.com"
+BACKEND_DIR = os.path.join(PROJECT_ROOT, "backend")
+
+
+if BACKEND_DIR not in sys.path:
+    sys.path.insert(0, BACKEND_DIR)
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
+
+
+from django.core.wsgi import get_wsgi_application
+
+
+application = get_wsgi_application()
