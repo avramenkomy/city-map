@@ -13,3 +13,4 @@
 - [План деплоя REG.RU / ispmanager](docs/reg-ru-deployment-plan.md)
 - [Passenger WSGI](docs/passenger-wsgi.md)
 - [REG.RU server env](docs/reg-ru-env.md)
+- [Список файлов для загрузки на сервер](docs/server-upload-checklist.md)
