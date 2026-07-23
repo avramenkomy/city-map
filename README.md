@@ -6,3 +6,4 @@
 - [Структура деплоя](docs/deployment-structure.md)
 - [Frontend assets в production](docs/frontend-assets-production.md)
 - [Production-like Django check](docs/production-like-check.md)
+- [Database settings](docs/database-settings.md)
