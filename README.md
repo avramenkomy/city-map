@@ -8,3 +8,4 @@
 - [Production-like Django check](docs/production-like-check.md)
 - [Database settings](docs/database-settings.md)
 - [Backend requirements](docs/backend-requirements.md)
+- [Frontend dependencies](docs/frontend-dependencies.md)
