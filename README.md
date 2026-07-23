@@ -12,3 +12,4 @@
 - [Финальный pre-deploy прогон](docs/final-pre-deploy-run.md)
 - [План деплоя REG.RU / ispmanager](docs/reg-ru-deployment-plan.md)
 - [Passenger WSGI](docs/passenger-wsgi.md)
+- [REG.RU server env](docs/reg-ru-env.md)
