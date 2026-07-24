@@ -134,28 +134,27 @@ WSGI_APPLICATION = 'config.wsgi.application'
 #     }
 # }
 
-DATABASE_ENGINE = os.getenv("DJANGO_DATABASE_ENGINE", "sqlite")
+DATABASE_ENGINE = os.getenv('DJANGO_DATABASE_ENGINE', 'sqlite').lower()
 
-if DATABASE_ENGINE == "mysql":
+if DATABASE_ENGINE == 'mysql':
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.mysql",
-            "NAME": require_env("DJANGO_DATABASE_NAME"),
-            "USER": require_env("DJANGO_DATABASE_USER"),
-            "PASSWORD": require_env("DJANGO_DATABASE_PASSWORD"),
-            "HOST": os.getenv("DJANGO_DATABASE_HOST", "localhost"),
-            "PORT": os.getenv("DJANGO_DATABASE_PORT", "3306"),
-            "OPTIONS": {
-                "charset": "utf8mb4",
-                "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
+        'default': {
+            'ENGINE': 'django.db.backends.mysql',
+            'NAME': os.getenv('DJANGO_DATABASE_NAME'),
+            'USER': os.getenv('DJANGO_DATABASE_USER'),
+            'PASSWORD': os.getenv('DJANGO_DATABASE_PASSWORD'),
+            'HOST': os.getenv('DJANGO_DATABASE_HOST', 'localhost'),
+            'PORT': os.getenv('DJANGO_DATABASE_PORT', '3306'),
+            'OPTIONS': {
+                'charset': 'utf8mb4',
             },
         }
     }
 else:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": BASE_DIR / "db.sqlite3",
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 
@@ -223,17 +222,23 @@ EMAIL_BACKEND = os.getenv(
 )
 
 EMAIL_HOST = os.getenv('DJANGO_EMAIL_HOST', '')
-EMAIL_PORT = int(os.getenv('DJANGO_EMAIL_PORT', '587'))
-EMAIL_USE_TLS = env_bool('DJANGO_EMAIL_USE_TLS', default=True)
+EMAIL_PORT = int(os.getenv('DJANGO_EMAIL_PORT', '465'))
+
+EMAIL_USE_SSL = env_bool('DJANGO_EMAIL_USE_SSL', default=True)
+EMAIL_USE_TLS = env_bool('DJANGO_EMAIL_USE_TLS', default=False)
+
 EMAIL_HOST_USER = os.getenv('DJANGO_EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('DJANGO_EMAIL_HOST_PASSWORD', '')
 
-DEFAUL_FROM_EMAIL = os.getenv(
-  'DJANGO_DEFAULT_FROM_EMAIL',
-  'City Map <noreply@example.com>'
+DEFAULT_FROM_EMAIL = os.getenv(
+    'DJANGO_DEFAULT_FROM_EMAIL',
+    EMAIL_HOST_USER or 'webmaster@localhost',
 )
 
-FEEDBACK_RECIPIENT_EMAIL = os.getenv('DJANGO_FEEDBACK_RECIPIENT_EMAIL', '')
+FEEDBACK_RECIPIENT_EMAIL = os.getenv(
+    'DJANGO_FEEDBACK_RECIPIENT_EMAIL',
+    EMAIL_HOST_USER,
+)
 
 SESSION_COOKIE_SECURE = env_bool(
     'DJANGO_SESSION_COOKIE_SECURE',
